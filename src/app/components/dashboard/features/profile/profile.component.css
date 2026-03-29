@@ -1,0 +1,22 @@
+/* Dark mode styling for password dialog */
+:host ::ng-deep .password-dialog.p-dialog {
+  --dialog-bg: var(--surface-card);
+  --dialog-header-bg: var(--surface-section);
+  --dialog-header-text: var(--text-color);
+  --dialog-content-bg: var(--surface-card);
+  --dialog-content-text: var(--text-color);
+}
+
+:host ::ng-deep .dark-mode-input .p-password-panel {
+  background-color: #1A1616;
+  color: white;
+  border-color: #4b4b4b;
+}
+
+:host ::ng-deep .dark-mode-input .p-password-meter {
+  background-color: #4b4b4b;
+}
+
+:host ::ng-deep .dark-mode-input .p-password-info {
+  color: #e0e0e0;
+}

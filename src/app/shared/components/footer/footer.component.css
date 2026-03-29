@@ -1,0 +1,16 @@
+/* Custom styling for the theme toggle */
+:host ::ng-deep .theme-toggle .p-toggleswitch.p-component {
+  width: 3rem;
+}
+
+:host ::ng-deep .theme-toggle .p-toggleswitch.p-component.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: #FC3942;
+}
+
+:host ::ng-deep .theme-toggle .p-toggleswitch.p-component:not(.p-disabled):hover .p-toggleswitch-slider {
+  background: #f0f0f0;
+}
+
+:host ::ng-deep .theme-toggle .p-toggleswitch.p-component.p-toggleswitch-checked:not(.p-disabled):hover .p-toggleswitch-slider {
+  background: #D62C35;
+}

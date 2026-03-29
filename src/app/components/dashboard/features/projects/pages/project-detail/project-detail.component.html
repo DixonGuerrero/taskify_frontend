@@ -1,0 +1,406 @@
+<div class="project-detail-container animate-fadeIn">
+  <!-- Barra de proyecto con nombre e iconos -->
+  <div
+    class="bg-gradient-to-r from-primary to-primary-400 dark:from-primary-600 dark:to-primary-700 rounded-t-xl shadow-sm"
+  >
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-3 space-y-3 sm:space-y-0"
+    >
+      <div class="flex items-center flex-wrap gap-2">
+        <h2 class="text-xl font-bold text-white">
+          {{ project?.name || "Nombre del Proyecto" }}
+        </h2>
+        <p-tag
+          class="!mt-0"
+          [value]="getStatusText(project?.status || getDefualtStatus())"
+          [severity]="getStatusSeverity(project?.status || getDefualtStatus())"
+        ></p-tag>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Botón de detalles -->
+        <button
+          (click)="toggleDetails()"
+          class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-primary bg-opacity-10 hover:bg-opacity-20 text-white transition-all duration-200"
+        >
+          <i
+            class="pi pi-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'transform rotate-180': showDetails }"
+          ></i>
+        </button>
+
+        <!-- Botón de compartir -->
+        <button
+          (click)="toggleShare()"
+          class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-primary bg-opacity-10 hover:bg-opacity-20 text-white transition-all duration-200"
+        >
+          <i class="pi pi-share-alt"></i>
+        </button>
+
+        <!-- Botón de miembros -->
+        <button
+          (click)="toggleMembers()"
+          class="flex-1 sm:flex-none px-4 py-2 rounded-full bg-primary bg-opacity-10 hover:bg-opacity-20 text-white transition-all duration-200"
+        >
+          <i class="pi pi-users"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de detalles del proyecto (colapsable) -->
+  <div
+    *ngIf="showDetails"
+    class="bg-white dark:bg-[#1A1616] border-x border-b border-gray-200 dark:border-gray-800 rounded-b-xl p-4 shadow-sm"
+    [@slideDown]
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
+          Información del Proyecto
+        </h3>
+
+        <div class="space-y-4">
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Descripción
+            </p>
+            <p class="text-gray-800 dark:text-gray-200">
+              {{ project?.description || "Descripción del proyecto..." }}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Fecha de finalización
+              </p>
+              <p class="text-gray-800 dark:text-gray-200">
+                {{
+                  project?.due_date
+                    ? (project?.due_date | date: "dd/MM/yyyy")
+                    : "31/12/2023"
+                }}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Creado por
+            </p>
+            <div class="flex items-center mt-1">
+              <img
+                [src]="project?.created_by?.image?.file?.url"
+                alt="Creador"
+                class="w-6 h-6 rounded-full mr-2 object-cover border border-gray-200 dark:border-gray-700"
+              />
+              <span class="text-gray-800 dark:text-gray-200"
+                >{{ project?.created_by?.first_name }}
+                {{ project?.created_by?.last_name }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
+          Progreso
+        </h3>
+
+        <!-- Replace the progress section -->
+        <div>
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-500 dark:text-gray-400"
+              >Completado</span
+            >
+            <span class="text-sm font-medium text-gray-800 dark:text-gray-200"
+              >{{ progress }}%</span
+            >
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div
+              class="bg-primary h-2 rounded-full"
+              [style.width]="progress + '%'"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Replace the task statistics section -->
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+            <p class="text-2xl font-bold text-primary">{{ taskStats.total }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Tareas</p>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+            <p class="text-2xl font-bold text-green-500">
+              {{ taskStats.completed }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Completadas</p>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+            <p class="text-2xl font-bold text-yellow-500">
+              {{ taskStats.pending }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Pendientes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección para compartir proyecto (colapsable) -->
+  <div
+    *ngIf="showShare"
+    class="bg-white dark:bg-[#1A1616] border-x border-b border-gray-200 dark:border-gray-800 rounded-b-xl p-4 shadow-sm"
+    [@slideDown]
+  >
+    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
+      Compartir Proyecto
+    </h3>
+
+    <div
+      class="flex items-center space-x-2 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg"
+    >
+      <input
+        type="text"
+        [value]="project?.invite_code"
+        readonly
+        class="flex-1 bg-transparent border-0 focus:ring-0 text-gray-800 dark:text-gray-200 font-mono"
+      />
+      <button
+        (click)="copyProjectCode()"
+        class="bg-primary hover:bg-primary-600 text-white px-3 py-1 rounded-lg text-sm transition-colors duration-200"
+      >
+        <i class="pi pi-copy mr-1"></i>
+        Copiar
+      </button>
+    </div>
+
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+      Comparte este código con tus colaboradores para que puedan unirse al
+      proyecto.
+    </p>
+  </div>
+
+  <!-- Sección de miembros (colapsable) -->
+  <div
+    *ngIf="showMembers"
+    class="bg-white dark:bg-[#1A1616] border-x border-b border-gray-200 dark:border-gray-800 rounded-b-xl p-4 shadow-sm"
+    [@slideDown]
+  >
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        Miembros del Proyecto
+      </h3>
+
+      <!-- <button 
+        class="bg-primary hover:bg-primary-600 text-white px-3 py-1 rounded-lg text-sm transition-colors duration-200"
+      >
+        <i class="pi pi-plus mr-1"></i>
+        Añadir
+      </button> -->
+    </div>
+
+    <!-- Replace the commented section with this active member list -->
+    <div class="space-y-3 max-h-60 overflow-y-auto pr-2">
+      <div
+        *ngFor="let member of project?.members || []; let i = index"
+        class="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+      >
+        <div class="flex items-center">
+          <img
+            [src]="member.image.file?.url || 'assets/user.webp'"
+            alt="Miembro"
+            class="w-8 h-8 rounded-full object-cover border border-gray-200 dark:border-gray-700"
+            onerror="this.src = 'assets/user.webp'"
+          />
+          <div class="ml-3">
+            <p class="text-sm font-medium text-gray-800 dark:text-gray-200">
+              {{ member.first_name }} {{ member.last_name }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ isProjectCreator(member) ? "Creador" : "Miembro" }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center">
+          <button
+            *ngIf="!isProjectCreator(member) && isCurrentUserCreator()"
+            class="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
+            (click)="removeMember(member.id || 0)"
+          >
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty state when no members -->
+      <div
+        *ngIf="!project?.members || project?.members?.length === 0"
+        class="text-center py-4 text-gray-500 dark:text-gray-400"
+      >
+        No hay miembros en este proyecto
+      </div>
+    </div>
+  </div>
+
+  <!-- Add this after the project header section and before the collapsible sections -->
+</div>
+
+<div class="mt-6 mb-4 relative">
+  <!-- Background container with image -->
+  <div
+    class="absolute inset-0 bg-cover bg-center opacity-50 rounded-xl"
+    [style.backgroundImage]="
+      project?.image?.file?.url
+        ? 'url(' + project?.image?.file?.url + ')'
+        : 'url(/assets/images/default-project.webp)'
+    "
+  ></div>
+
+  <!-- Content container with semi-transparent background -->
+  <div class="relative p-6 bg-opacity-90 dark:bg-opacity-90 rounded-xl">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold text-surface">Tareas</h2>
+      <p-button
+        icon="pi pi-pen-to-square"
+        styleClass="p-button-sm"
+        (onClick)="showCreateTaskForm()"
+      />
+    </div>
+
+    <!-- Modify the grid container to have a fixed height on mobile -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-4 md:max-h-[600px] overflow-visible"
+    >
+      <!-- Columna de Pendientes -->
+      <!-- Modify the column divs to add the task-column class -->
+      <div
+        class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col max-h-[400px] md:max-h-full task-column"
+        pDroppable="tasks"
+        (onDrop)="dropToPending()"
+      >
+        <div
+          class="p-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 rounded-t-xl"
+        >
+          <h4
+            class="font-medium text-gray-700 dark:text-gray-300 flex items-center"
+          >
+            <i class="pi pi-clock mr-2 text-gray-500"></i>
+            Pendientes
+            <span
+              class="ml-2 px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full"
+            >
+              {{ pendingTasks.length }}
+            </span>
+          </h4>
+        </div>
+
+        <div class="p-3 flex-1 overflow-y-auto">
+          <app-task-card
+            *ngFor="let task of pendingTasks; let i = index"
+            [task]="task"
+            [index]="i"
+            (onTaskDragStart)="dragStart($event)"
+            (onTaskDragEnd)="dragEnd()"
+            (onTaskDeleted)="onTaskDeleted($event)"
+          ></app-task-card>
+
+          <div
+            *ngIf="pendingTasks.length === 0"
+            class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm"
+          >
+            No hay tareas pendientes
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna de En Proceso -->
+      <div
+        class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col max-h-[400px] md:max-h-full"
+        pDroppable="tasks"
+        (onDrop)="dropToInProgress()"
+      >
+        <div
+          class="p-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 rounded-t-xl"
+        >
+          <h4
+            class="font-medium text-gray-700 dark:text-gray-300 flex items-center"
+          >
+            <i class="pi pi-sync mr-2 text-blue-500"></i>
+            En Proceso
+            <span
+              class="ml-2 px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full"
+            >
+              {{ inProgressTasks.length }}
+            </span>
+          </h4>
+        </div>
+
+        <div class="p-3 flex-1 overflow-y-auto">
+          <app-task-card
+            *ngFor="let task of inProgressTasks; let i = index"
+            [task]="task"
+            [index]="i"
+            (onTaskDragStart)="dragStart($event)"
+            (onTaskDragEnd)="dragEnd()"
+            (onTaskDeleted)="onTaskDeleted($event)"
+          ></app-task-card>
+
+          <div
+            *ngIf="inProgressTasks.length === 0"
+            class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm"
+          >
+            No hay tareas en proceso
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna de Terminado -->
+      <div
+        class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col max-h-[400px] md:max-h-full"
+        pDroppable="tasks"
+        (onDrop)="dropToCompleted()"
+      >
+        <div
+          class="p-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 rounded-t-xl"
+        >
+          <h4
+            class="font-medium text-gray-700 dark:text-gray-300 flex items-center"
+          >
+            <i class="pi pi-check-circle mr-2 text-green-500"></i>
+            Terminado
+            <span
+              class="ml-2 px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full"
+            >
+              {{ completedTasks.length }}
+            </span>
+          </h4>
+        </div>
+
+        <div class="p-3 flex-1 overflow-y-auto">
+          <app-task-card
+            *ngFor="let task of completedTasks; let i = index"
+            [task]="task"
+            [index]="i"
+            (onTaskDragStart)="dragStart($event)"
+            (onTaskDragEnd)="dragEnd()"
+            (onTaskDeleted)="onTaskDeleted($event)"
+          ></app-task-card>
+
+          <div
+            *ngIf="completedTasks.length === 0"
+            class="text-center py-4 text-gray-500 dark:text-gray-400 text-sm"
+          >
+            No hay tareas completadas
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

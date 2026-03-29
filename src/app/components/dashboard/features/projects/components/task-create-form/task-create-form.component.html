@@ -1,0 +1,187 @@
+<div class="p-4 form-container">
+  <div *ngIf="loading" class="flex justify-center items-center py-8">
+    <i class="pi pi-spin pi-spinner text-3xl text-primary"></i>
+  </div>
+
+  <form
+    *ngIf="!loading"
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    class="space-y-4"
+  >
+    <!-- Nombre de la Tarea -->
+    <div class="field">
+      <label
+        for="name"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Nombre de la Tarea
+      </label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        class="w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+        placeholder="Ingresa el nombre de la tarea"
+      />
+      <small
+        *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
+        class="text-red-500"
+      >
+        El nombre es requerido y debe tener al menos 3 caracteres
+      </small>
+    </div>
+
+    <!-- Descripción -->
+    <div class="field">
+      <label
+        for="description"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Descripción
+      </label>
+      <textarea
+        pInputTextarea
+        id="description"
+        formControlName="description"
+        class="w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+        [rows]="3"
+        placeholder="Describe la tarea"
+      ></textarea>
+      <small
+        *ngIf="
+          taskForm.get('description')?.invalid &&
+          taskForm.get('description')?.touched
+        "
+        class="text-red-500"
+      >
+        La descripción es requerida y debe tener al menos 10 caracteres
+      </small>
+    </div>
+
+    <!-- Prioridad -->
+    <div class="field">
+      <label
+        for="priority"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Prioridad
+      </label>
+      <p-select
+        id="priority"
+        formControlName="priority"
+        [options]="priorityOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona una prioridad"
+        [style]="{ width: '100%' }"
+        styleClass="w-full"
+      ></p-select>
+      <small
+        *ngIf="
+          taskForm.get('priority')?.invalid && taskForm.get('priority')?.touched
+        "
+        class="text-red-500"
+      >
+        La prioridad es requerida
+      </small>
+    </div>
+
+    <!-- Asignado a -->
+    <div class="field">
+      <label
+        for="assigned"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Asignado a
+      </label>
+      <p-select
+        id="assigned"
+        formControlName="assigned"
+        [options]="project.members"
+        optionLabel="first_name"
+        placeholder="Selecciona un miembro"
+        [style]="{ width: '100%' }"
+        styleClass="w-full"
+      >
+        <ng-template pTemplate="selectedItem" let-member>
+          <div class="flex items-center gap-2" *ngIf="member">
+            <img
+              [src]="member.image?.file?.url || 'assets/user.webp'"
+              class="w-6 h-6 rounded-full object-cover"
+              onerror="this.src = 'assets/user.webp'"
+            />
+            <span>{{ member.first_name }} {{ member.last_name }}</span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-member>
+          <div class="flex items-center gap-2">
+            <img
+              [src]="member.image?.file?.url || 'assets/user.webp'"
+              class="w-6 h-6 rounded-full object-cover"
+              onerror="this.src = 'assets/user.webp'"
+            />
+            <span>{{ member.first_name }} {{ member.last_name }}</span>
+          </div>
+        </ng-template>
+      </p-select>
+      <small
+        *ngIf="
+          taskForm.get('assigned')?.invalid && taskForm.get('assigned')?.touched
+        "
+        class="text-red-500"
+      >
+        Debes asignar la tarea a un miembro
+      </small>
+    </div>
+
+    <!-- Fecha de Vencimiento -->
+    <div class="field">
+      <label
+        for="dueDate"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Fecha de Vencimiento
+      </label>
+      <p-date-picker
+        id="dueDate"
+        formControlName="dueDate"
+        [showIcon]="true"
+        dateFormat="dd/mm/yy"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        yearRange="2024:2030"
+        [style]="{ width: '100%' }"
+        [inputStyleClass]="
+          'w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all'
+        "
+        placeholder="Seleccionar fecha"
+        readonlyInput="true"
+      />
+      <small
+        *ngIf="
+          taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched
+        "
+        class="text-red-500"
+      >
+        La fecha de vencimiento es obligatoria
+      </small>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex justify-end gap-2 pt-4">
+      <p-button
+        type="button"
+        (click)="close()"
+        label="Cancelar"
+        styleClass="p-button-text"
+      ></p-button>
+      <p-button
+        type="submit"
+        label="Crear Tarea"
+        [loading]="loading"
+        [disabled]="!taskForm.valid"
+      ></p-button>
+    </div>
+  </form>
+</div>

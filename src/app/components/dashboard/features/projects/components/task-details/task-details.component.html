@@ -1,0 +1,185 @@
+<div class="p-4">
+  <!-- Upload Progress Toast -->
+  <p-toast position="top-center" key="upload" [baseZIndex]="5000">
+    <ng-template let-message #headless let-closeFn="closeFn">
+      <div
+        class="flex flex-col p-4 gap-3 w-80 bg-[#FC3942] dark:bg-[#FF6C73] rounded-xl shadow-lg"
+      >
+        <div class="flex items-center gap-3">
+          <i
+            class="pi pi-cloud-upload text-white text-xl"
+            [class.pi-spin]="uploadProgress() < 100"
+          ></i>
+          <span class="font-semibold text-sm text-white">{{
+            message.summary
+          }}</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <p-progressbar
+            [value]="uploadProgress()"
+            [showValue]="false"
+            [style]="{ height: '4px' }"
+            styleClass="!bg-white/30"
+          ></p-progressbar>
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-white/90">{{ message.detail }}</span>
+            <span class="text-xs font-bold text-white"
+              >{{ uploadProgress() }}%</span
+            >
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-toast>
+  <!-- Header Section -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="space-y-2">
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+        {{ task.name }}
+      </h2>
+      <div class="flex items-center gap-4">
+        <span
+          [ngClass]="getPriorityClass(task.priority)"
+          class="text-xs px-2 py-1 rounded-full"
+        >
+          {{ getPriorityText(task.priority) }}
+        </span>
+        <p-tag
+          [value]="getStatusText(task.status)"
+          [severity]="getStatusSeverity(task.status)"
+          class="!whitespace-nowrap"
+        ></p-tag>
+        <span class="text-sm text-gray-500 dark:text-gray-400">
+          <i class="pi pi-clock mr-1"></i>
+          {{ getRemainingDays(task.due_date) }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="space-y-6">
+    <!-- Description -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+        Descripción
+      </h3>
+      <p class="text-gray-800 dark:text-gray-200">{{ task.description }}</p>
+    </div>
+
+    <!-- Assigned Member -->
+    <div>
+      <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+        Asignado a
+      </h3>
+      <div class="flex items-center">
+        <img
+          [src]="task.assigned.image.file?.url || 'assets/user.webp'"
+          [alt]="task.assigned.first_name"
+          class="w-8 h-8 rounded-full mr-3 object-cover border border-gray-200 dark:border-gray-700"
+        />
+        <span class="text-gray-800 dark:text-gray-200"
+          >{{ task.assigned.first_name }} {{ task.assigned.last_name }}</span
+        >
+      </div>
+    </div>
+
+    <!-- Dates -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+          Fecha límite
+        </h3>
+        <p class="text-gray-800 dark:text-gray-200">
+          {{ task.due_date | date: "dd/MM/yyyy" }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Adjuntos -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+          Adjuntos
+        </h3>
+        <p-fileupload
+          mode="basic"
+          name="file"
+          [customUpload]="true"
+          (uploadHandler)="onFileUpload($event)"
+          [auto]="true"
+          chooseLabel="Agregar"
+          chooseIcon="pi pi-upload"
+          styleClass="p-button-xs p-button-outlined"
+          [disabled]="isUploading()"
+        ></p-fileupload>
+      </div>
+
+      <div
+        *ngIf="task.attachments?.length; else noAttachments"
+        class="grid grid-cols-1 sm:grid-cols-2 gap-3"
+      >
+        <div
+          *ngFor="let attachment of task.attachments; let i = index"
+          class="flex items-center gap-3 text-left border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors bg-white dark:bg-[#1A1616] w-full group"
+        >
+          <i
+            class="flex-shrink-0 text-[#FC3942] dark:text-[#FF6C73]"
+            [ngClass]="getAttachmentIconClasses(attachment)"
+          ></i>
+          <div
+            class="min-w-0 flex-1 cursor-pointer"
+            (click)="downloadAttachment(attachment)"
+          >
+            <p
+              class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate"
+            >
+              {{ attachment.original_name }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ formatFileSize(attachment.file_size) }}
+            </p>
+          </div>
+          <div class="flex items-center gap-1">
+            <p-menu
+              #menu
+              [model]="getAttachmentMenuItems(attachment, menuButton)"
+              [popup]="true"
+              appendTo="body"
+            ></p-menu>
+            <button
+              #menuButton
+              type="button"
+              pButton
+              icon="pi pi-ellipsis-v"
+              class="p-button-text p-button-rounded p-button-sm"
+              (click)="menu.toggle($event)"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noAttachments>
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic">
+          No hay archivos adjuntos
+        </p>
+      </ng-template>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="flex justify-end gap-2 pt-4">
+      <p-button
+        icon="pi pi-pencil"
+        label="Editar"
+        styleClass="p-button-outlined"
+        (onClick)="editTask()"
+      ></p-button>
+      <p-button
+        icon="pi pi-trash"
+        label="Eliminar"
+        styleClass="p-button-outlined p-button-danger"
+        (onClick)="deleteTask($event)"
+      ></p-button>
+    </div>
+  </div>
+</div>

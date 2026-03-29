@@ -1,0 +1,69 @@
+<div
+  class="project-card border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm cursor-pointer bg-white dark:bg-[#1A1616]"
+  [style.animation-delay]="index * 0.1 + 's'"
+  @scaleIn
+>
+  <div class="h-48 overflow-hidden relative" (click)="openProject()">
+    <img
+      [src]="project.image.file?.url || 'assets/default-project.webp'"
+      [alt]="project.name"
+      class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+    />
+    <div class="absolute top-3 right-3">
+      <p-tag
+        [value]="mapStatusToString(project.status)"
+        [severity]="getStatusClass(project.status)"
+      ></p-tag>
+    </div>
+  </div>
+
+  <div class="p-4">
+    <div (click)="openProject()">
+      <h3 class="text-xl font-bold mb-2">{{ project.name }}</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+        {{ project.description }}
+      </p>
+
+      <div class="mb-4">
+        <div class="flex justify-between mb-1">
+          <span class="text-sm font-medium">Progreso</span>
+          <span class="text-sm font-medium">{{ calculateProgress() }}%</span>
+        </div>
+        <p-progressBar
+          [value]="calculateProgress()"
+          [showValue]="false"
+          [style]="{ height: '8px' }"
+        ></p-progressBar>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mb-4">
+      <div class="flex items-center gap-2">
+        <i class="pi pi-users text-gray-500"></i>
+        <span class="text-sm">{{ getMemberCount() }} miembros</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <i class="pi pi-check-square text-gray-500"></i>
+        <span class="text-sm">{{ getTaskCount() }} tareas</span>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <!-- Only show menu button if current user is the project creator -->
+      <div *ngIf="isCurrentUserCreator()">
+        <p-menu #menu [model]="items" [popup]="true" />
+        <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" />
+      </div>
+      <div *ngIf="!isCurrentUserCreator()" class="w-10"></div>
+      <!-- Spacer when button is hidden -->
+      <p-button
+        label="Abrir"
+        icon="pi pi-arrow-right"
+        styleClass="p-button-outlined py-1 px-4 border-2"
+        iconPos="right"
+        (click)="$event.stopPropagation()"
+        (click)="openProject()"
+      />
+    </div>
+  </div>
+</div>

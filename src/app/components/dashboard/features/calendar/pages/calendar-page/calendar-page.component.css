@@ -1,0 +1,89 @@
+:host ::ng-deep .p-calendar {
+    width: 100%;
+  }
+  
+  :host ::ng-deep .p-inputtext {
+    width: 100%;
+  }
+  
+  :host ::ng-deep .p-dialog-content {
+    padding: 1.5rem;
+  }
+  
+  /* Estilo para eventos */
+  .event-day {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid;
+    border-left-color: inherit;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-day:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .event-day::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: inherit;
+    opacity: 0.7;
+  }
+  
+  /* Estilo para el calendario */
+  .calendar-day {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .calendar-day:hover:not(.selected-day):not(.today) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark .calendar-day:hover:not(.selected-day):not(.today) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Estilo para la vista de hora */
+  .hour-row {
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease;
+    padding-left: 8px;
+  }
+  
+  .hour-row:hover {
+    border-left-color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  
+  .dark .hour-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Estilos para las etiquetas de prioridad */
+  .priority-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+  /* Estilos para las etiquetas de proyecto */
+  .project-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+  }

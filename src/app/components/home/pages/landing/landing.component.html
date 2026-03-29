@@ -1,0 +1,624 @@
+<main class="w-screen flex flex-col min-h-screen items-center">
+  <div class="w-full max-w-[1240px] flex flex-col flex-grow">
+    <!-- Header -->
+    <app-header></app-header>
+
+    <!-- Spacer para compensar el header fijo -->
+    <div class="h-16"></div>
+
+    <!-- Hero Section -->
+    <section
+      id="inicio"
+      class="flex-grow flex flex-col md:flex-row items-center justify-between px-6 md:px-20 md:min-h-screen gap-y-20 mt-20 md:mt-0 md:gap-y-0"
+    >
+      <!-- Columna Izquierda -->
+      <div class="text-center md:text-left md:w-1/2">
+        <h1
+          class="text-6xl md:text-[80px] font-extrabold text-primary font-[Raleway] tracking-tighter"
+        >
+          Taskify
+        </h1>
+        <p
+          class="mt-4 text-[20px] text-surface-900 dark:text-surface font-medium"
+        >
+          Crea proyectos rápidamente, organiza tareas y colabora con tu equipo
+          en una interfaz sencilla y poderosa.
+        </p>
+        <p-button
+          routerLink="/auth/login"
+          label="Empezar"
+          styleClass="py-1 px-4 text-[20px] font-extrabold mt-4"
+        />
+      </div>
+
+      <!-- Columna Derecha -->
+      <div class="md:mt-0 md:w-1/2 flex justify-center">
+        <img src="assets/Hero.webp" alt="Imagen de referencia" class="w-full" />
+      </div>
+    </section>
+
+    <!-- Sección de Beneficios -->
+    <section
+      id="beneficios"
+      class="flex flex-col items-center justify-center px-6 md:px-20 py-10 min-h-screen"
+    >
+      <div class="max-w-6xl mx-auto w-full">
+        <!-- Encabezado mejorado -->
+        <div class="text-center mb-16">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-primary mb-4"
+          >
+            Tu Compañero Ideal para Gestionar Proyectos
+          </h2>
+          <p
+            class="text-lg md:text-xl text-gray-600 dark:text-[#D4D4D4]/80 max-w-2xl mx-auto"
+          >
+            Diseñado para equipos que quieren resultados sin complicaciones.
+            Descubre cómo Taskify puede transformar tu forma de trabajar.
+          </p>
+        </div>
+
+        <!-- Contenedor de tarjetas -->
+        <div class="flex flex-grow gap-4 items-center justify-center">
+          <div>
+            <div class="flex flex-wrap justify-center gap-8">
+              <!-- Tarjeta 1 -->
+              <div
+                pAnimateOnScroll
+                enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
+                leaveClass="animate-leave fade-out-0"
+                class="flex flex-col bg-white dark:bg-[#1A1616] border border-gray-100 dark:border-primary/10 justify-center items-center max-w-80 rounded-3xl p-8 gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-primary/10 group"
+              >
+                <div class="relative">
+                  <div
+                    class="absolute inset-0 bg-primary/10 dark:bg-primary/5 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50"
+                  ></div>
+                  <div
+                    class="relative rounded-full bg-primary text-primary-contrast w-16 h-16 flex items-center justify-center"
+                  >
+                    <i class="pi pi-bolt !text-2xl"></i>
+                  </div>
+                </div>
+                <h3
+                  class="text-2xl font-bold text-surface-900 dark:text-[#D4D4D4]"
+                >
+                  Rápido y Sencillo
+                </h3>
+                <p
+                  class="text-center text-gray-600 dark:text-[#D4D4D4]/80 text-sm"
+                >
+                  Crea proyectos en segundos y empieza a trabajar sin curva de
+                  aprendizaje.
+                </p>
+              </div>
+
+              <!-- Tarjeta 2 -->
+              <div
+                pAnimateOnScroll
+                enterClass="animate-enter fade-in-10 animate-duration-1000"
+                leaveClass="animate-leave fade-out-0"
+                class="flex flex-col bg-white dark:bg-[#1A1616] border border-gray-100 dark:border-primary/10 justify-center items-center max-w-80 rounded-3xl p-8 gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-primary/10 group"
+              >
+                <div class="relative">
+                  <div
+                    class="absolute inset-0 bg-primary/10 dark:bg-primary/5 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50"
+                  ></div>
+                  <div
+                    class="relative rounded-full bg-primary text-primary-contrast w-16 h-16 flex items-center justify-center"
+                  >
+                    <i class="pi pi-users !text-2xl"></i>
+                  </div>
+                </div>
+                <h3
+                  class="text-2xl font-bold text-surface-900 dark:text-[#D4D4D4]"
+                >
+                  Colaboración Fácil
+                </h3>
+                <p
+                  class="text-center text-gray-600 dark:text-[#D4D4D4]/80 text-sm"
+                >
+                  Invita a tu equipo con un código único y trabajen juntos al
+                  instante.
+                </p>
+              </div>
+
+              <!-- Tarjeta 3 -->
+              <div
+                pAnimateOnScroll
+                enterClass="animate-enter fade-in-10 slide-in-from-r-8 animate-duration-1000"
+                leaveClass="animate-leave fade-out-0"
+                class="flex flex-col bg-white dark:bg-[#1A1616] border border-gray-100 dark:border-primary/10 justify-center items-center max-w-80 rounded-3xl p-8 gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-primary/10 group"
+              >
+                <div class="relative">
+                  <div
+                    class="absolute inset-0 bg-primary/10 dark:bg-primary/5 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 opacity-50"
+                  ></div>
+                  <div
+                    class="relative rounded-full bg-primary text-primary-contrast w-16 h-16 flex items-center justify-center"
+                  >
+                    <i class="pi pi-objects-column !text-2xl"></i>
+                  </div>
+                </div>
+                <h3
+                  class="text-2xl font-bold text-surface-900 dark:text-[#D4D4D4]"
+                >
+                  Control Total
+                </h3>
+                <p
+                  class="text-center text-gray-600 dark:text-[#D4D4D4]/80 text-sm"
+                >
+                  Organiza tareas con prioridades, fechas límite y asignaciones
+                  en un solo lugar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón CTA debajo de las tarjetas -->
+        <div class="flex justify-center mt-16">
+          <p-button
+            routerLink=""
+            label="Explora Todas las Funciones"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            styleClass="py-3 px-8 text-lg font-medium"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Separador -->
+    <div class="w-full max-w-6xl mx-auto my-20">
+      <div
+        class="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"
+      ></div>
+    </div>
+
+    <!-- Sección de Funciones -->
+    <section
+      id="caracteristicas"
+      class="py-16 px-4 md:px-6 lg:px-8 rounded-[10px] bg-gray-50 dark:bg-transparent"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-primary"
+          >
+            Funciones que Hacen tu Vida Más Fácil
+          </h2>
+          <p
+            class="text-xl text-gray-600 dark:text-[#D4D4D4] max-w-3xl mx-auto"
+          >
+            Todo lo que necesitas para mantener tus proyectos en marcha.
+          </p>
+        </div>
+
+        <!-- Feature 1 -->
+        <div
+          class="mb-16 bg-white dark:bg-[#1A1616] rounded-xl shadow-sm dark:shadow-primary/5 overflow-hidden hover:shadow-md dark:hover:shadow-primary/10 transition-all duration-300"
+        >
+          <div class="flex flex-col md:flex-row">
+            <div class="flex-1 p-8 flex flex-col justify-center">
+              <div
+                class="w-12 h-12 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-clock text-primary text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-semibold mb-3 text-surface-900 dark:text-[#D4D4D4]"
+              >
+                Creación Rápida de Proyectos
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80">
+                Inicia un proyecto en un clic y personalízalo según tus
+                necesidades. Configura estados personalizados, asigna roles y
+                establece el flujo de trabajo que mejor se adapte a tu equipo.
+              </p>
+            </div>
+            <div class="flex-1">
+              <img
+                src="assets/Feature_1.webp"
+                alt="Formulario de creación de proyectos"
+                class="w-full h-full object-cover dark:opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div
+          class="mb-16 bg-white dark:bg-[#1A1616] rounded-xl shadow-sm dark:shadow-primary/5 overflow-hidden hover:shadow-md dark:hover:shadow-primary/10 transition-all duration-300"
+        >
+          <div class="flex flex-col md:flex-row-reverse">
+            <div class="flex-1 p-8 flex flex-col justify-center">
+              <div
+                class="w-12 h-12 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-code text-primary text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-semibold mb-3 text-surface-900 dark:text-[#D4D4D4]"
+              >
+                Invitación por Código
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80">
+                Comparte un código único y deja que tus compañeros se unan desde
+                el dashboard. Simplifica la colaboración y mantén el control
+                sobre quién tiene acceso a tus proyectos.
+              </p>
+            </div>
+            <div class="flex-1">
+              <img
+                src="assets/Feature_2.webp"
+                alt="Flujo de invitación por código"
+                class="w-full h-full object-cover dark:opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div
+          class="mb-16 bg-white dark:bg-[#1A1616] rounded-xl shadow-sm dark:shadow-primary/5 overflow-hidden hover:shadow-md dark:hover:shadow-primary/10 transition-all duration-300"
+        >
+          <div class="flex flex-col md:flex-row">
+            <div class="flex-1 p-8 flex flex-col justify-center">
+              <div
+                class="w-12 h-12 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-clone text-primary text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-semibold mb-3 text-surface-900 dark:text-[#D4D4D4]"
+              >
+                Tareas Flexibles
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80">
+                Modifica estados, establece prioridades, asigna miembros y
+                define fechas límite con facilidad. Personaliza cada tarea según
+                las necesidades específicas de tu proyecto y equipo.
+              </p>
+            </div>
+            <div class="flex-1">
+              <img
+                src="assets/Feature_1.webp"
+                alt="Tarea con opciones de edición"
+                class="w-full h-full object-cover dark:opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div
+          class="mb-16 bg-white dark:bg-[#1A1616] rounded-xl shadow-sm dark:shadow-primary/5 overflow-hidden hover:shadow-md dark:hover:shadow-primary/10 transition-all duration-300"
+        >
+          <div class="flex flex-col md:flex-row-reverse">
+            <div class="flex-1 p-8 flex flex-col justify-center">
+              <div
+                class="w-12 h-12 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-arrows-alt text-primary text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-semibold mb-3 text-surface-900 dark:text-[#D4D4D4]"
+              >
+                Drag-and-Drop Intuitivo
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80">
+                Mueve tareas entre estados con un simple arrastrar y soltar.
+                Actualiza el progreso de tus proyectos de forma visual e
+                intuitiva, sin necesidad de abrir menús adicionales.
+              </p>
+            </div>
+            <div class="flex-1">
+              <img
+                src="assets/Feature_2.webp"
+                alt="Drag-and-drop en acción"
+                class="w-full h-full object-cover dark:opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div
+          class="mb-8 bg-white dark:bg-[#1A1616] rounded-xl shadow-sm dark:shadow-primary/5 overflow-hidden hover:shadow-md dark:hover:shadow-primary/10 transition-all duration-300"
+        >
+          <div class="flex flex-col md:flex-row">
+            <div class="flex-1 p-8 flex flex-col justify-center">
+              <div
+                class="w-12 h-12 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-calendar text-primary text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-semibold mb-3 text-surface-900 dark:text-[#D4D4D4]"
+              >
+                Calendario Personalizado
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80">
+                Visualiza tus tareas asignadas por día y nunca pierdas una fecha
+                límite. Organiza tu trabajo con una vista clara de tus
+                compromisos y prioridades para la semana o el mes.
+              </p>
+            </div>
+            <div class="flex-1">
+              <img
+                src="assets/Feature_3.webp"
+                alt="Calendario con tareas marcadas"
+                class="w-full h-full object-cover dark:opacity-90"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Futuras Funciones -->
+    <section
+      class="min-h-screen bg-white dark:bg-transparent p-4 md:p-8 lg:p-12"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col items-center text-center mb-8">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-primary"
+          >
+            Taskify Está Creciendo
+          </h2>
+          <p class="text-gray-600 dark:text-[#D4D4D4]/80 max-w-2xl">
+            Próximas funcionalidades para llevar tu productividad al siguiente
+            nivel.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6">
+          <!-- Main Feature -->
+          <div
+            class="bg-gradient-to-br from-primary to-primary-400 rounded-3xl overflow-hidden col-span-1 md:col-span-3 md:row-span-2 flex flex-col group transition-all duration-300 hover:shadow-lg"
+          >
+            <div class="relative h-48 md:h-64 w-full">
+              <img
+                src="assets/Feature_1.webp"
+                alt="Taskify dashboard preview"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-6 md:p-8 text-white">
+              <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-bold mb-2">Descubre el Futuro</h3>
+                <i class="pi pi-star text-2xl opacity-80"></i>
+              </div>
+              <p class="mb-6 opacity-90">
+                Estamos construyendo herramientas que transformarán tu forma de
+                trabajar.
+              </p>
+              <div class="flex items-center mt-auto">
+                <span class="text-sm font-medium"
+                  >Explorar todas las funciones</span
+                >
+                <i
+                  class="pi pi-arrow-right ml-2 text-sm group-hover:translate-x-1 transition-transform"
+                ></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Chat -->
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-3"
+          >
+            <div class="flex flex-col md:flex-row">
+              <div class="relative h-40 md:h-auto md:w-1/2">
+                <img
+                  src="assets/Feature_2.webp"
+                  alt="Team chat feature"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="p-6 md:w-1/2">
+                <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-4">
+                  <i class="pi pi-comments text-primary text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 dark:text-[#D4D4D4]">
+                  Chat en Equipo
+                </h3>
+                <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm mb-4">
+                  Comunícate con tus compañeros dentro de cada proyecto.
+                </p>
+                <div
+                  class="mt-auto flex items-center text-primary text-sm font-medium"
+                >
+                <a routerLink="/roadmap" class="flex items-center text-primary">
+                  <span>Próximamente</span>
+                  <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Smart Notifications -->
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-3"
+          >
+            <div class="flex flex-col md:flex-row">
+              <div class="p-6 md:w-1/2">
+                <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-4">
+                  <i class="pi pi-bell text-primary text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 dark:text-[#D4D4D4]">
+                  Notificaciones Inteligentes
+                </h3>
+                <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm mb-4">
+                  Recibe alertas por correo sobre tareas vencidas o nuevas
+                  asignaciones.
+                </p>
+                <div
+                  class="mt-auto flex items-center text-primary text-sm font-medium"
+                >
+                <a routerLink="/roadmap" class="flex items-center text-primary">
+                  <span>Próximamente</span>
+                  <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                </div>
+              </div>
+              <div class="relative h-40 md:h-auto md:w-1/2">
+                <img
+                  src="assets/Feature_3.webp"
+                  alt="Smart notifications feature"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Desktop Version -->
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-6"
+          >
+            <div class="flex flex-col md:flex-row">
+              <div class="p-6 md:p-8 md:w-1/2">
+                <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-3">
+                  <i class="pi pi-desktop text-primary text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 dark:text-[#D4D4D4]">
+                  Versión Desktop
+                </h3>
+                <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm">
+                  Lleva Taskify a tu escritorio para una experiencia aún más
+                  fluida.
+                </p>
+                <div
+                  class="flex items-center text-primary text-sm font-medium mt-3"
+                >
+                  <a routerLink="/roadmap" class="flex items-center text-primary">
+                    <span>Próximamente</span>
+                    <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="relative h-40 md:h-[200px] md:w-1/2">
+                <img
+                  src="assets/Feature_1.webp"
+                  alt="Desktop version feature"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Feature Tiles -->
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
+          >
+            <div class="relative h-32 w-full">
+              <img
+                src="assets/Feature_2.webp"
+                alt="Calendar integration"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
+                Integración Calendario
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm">
+                Sincroniza tus tareas con tu calendario favorito.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
+          >
+            <div class="relative h-32 w-full">
+              <img
+                src="assets/Feature_3.webp"
+                alt="Mobile app"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
+                App Móvil
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm">
+                Gestiona tus tareas desde cualquier lugar.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
+          >
+            <div class="relative h-32 w-full">
+              <img
+                src="assets/Feature_1.webp"
+                alt="AI assistant"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
+                Asistente IA
+              </h3>
+              <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm">
+                Sugerencias inteligentes para optimizar tu trabajo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Separador -->
+    <div class="w-full max-w-6xl mx-auto my-20">
+      <div
+        class="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"
+      ></div>
+    </div>
+
+    <!-- Sección CTA -->
+    <section class="w-full py-12 px-4 md:px-8 bg-white dark:bg-transparent">
+      <div class="container mx-auto max-w-6xl">
+        <!-- Contenedor de imágenes -->
+        <div
+          class="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] mb-8 overflow-hidden rounded-lg shadow-lg"
+        >
+          <!-- Imagen modo claro -->
+          <img
+            src="assets/CTA.webp"
+            alt="Dashboard de Taskify mostrando la interfaz de organización de tareas"
+            class="w-full h-full object-cover dark:hidden"
+          />
+          <!-- Imagen modo oscuro -->
+          <img
+            src="assets/CTADARK.webp"
+            alt="Dashboard de Taskify mostrando la interfaz de organización de tareas"
+            class="w-full h-full object-cover hidden dark:block"
+          />
+        </div>
+
+        <!-- Contenido CTA centrado debajo de la imagen -->
+        <div class="text-center max-w-3xl mx-auto space-y-6 py-8">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-primary"
+          >
+            Empieza a Organizarte Hoy
+          </h2>
+          <p class="text-lg md:text-xl text-gray-600 dark:text-[#D4D4D4]/80">
+            Taskify es simple, efectivo y está listo para ti.
+          </p>
+          <p-button
+            routerLink="/auth/login"
+            label="Comienza Gratis"
+            styleClass="py-3 px-8 text-lg font-medium"
+          />
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+<app-footer />

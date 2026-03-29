@@ -1,0 +1,212 @@
+<div class="p-4 form-container">
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div class="field">
+      <label
+        for="name"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Nombre del Proyecto
+      </label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        class="w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+        placeholder="Ingresa el nombre del proyecto"
+        [ngClass]="{
+          'ng-invalid ng-dirty border-red-500 dark:border-red-400':
+            (submitted || f['name'].touched) && f['name'].errors,
+        }"
+      />
+      <!-- Mensajes de error para el nombre -->
+      <small
+        *ngIf="
+          (submitted || f['name'].touched) && f['name'].errors?.['required']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        El nombre es requerido.
+      </small>
+      <small
+        *ngIf="
+          (submitted || f['name'].touched) && f['name'].errors?.['minlength']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        El nombre debe tener al menos 3 caracteres.
+      </small>
+    </div>
+
+    <div class="field">
+      <label
+        for="description"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Descripción
+      </label>
+      <textarea
+        pInputTextarea
+        id="description"
+        formControlName="description"
+        class="w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+        [rows]="3"
+        placeholder="Describe tu proyecto"
+        [ngClass]="{
+          'ng-invalid ng-dirty border-red-500 dark:border-red-400':
+            (submitted || f['description'].touched) && f['description'].errors,
+        }"
+      ></textarea>
+      <!-- Mensajes de error para la descripción -->
+      <small
+        *ngIf="
+          (submitted || f['description'].touched) &&
+          f['description'].errors?.['required']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        La descripción es requerida.
+      </small>
+      <small
+        *ngIf="
+          (submitted || f['description'].touched) &&
+          f['description'].errors?.['minlength']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        La descripción debe tener al menos 10 caracteres.
+      </small>
+    </div>
+
+    <div class="field">
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Imagen del Proyecto
+      </label>
+      <div class="flex items-center gap-4">
+        <div
+          *ngIf="selectedImage"
+          class="w-24 h-24 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
+          [ngClass]="{
+            'border-red-500 dark:border-red-400':
+              (submitted || f['image'].touched) && f['image'].errors,
+          }"
+        >
+          <img
+            [src]="selectedImage.file?.url"
+            class="w-full h-full object-cover"
+            alt="Selected image"
+          />
+        </div>
+        <p-button
+          type="button"
+          (click)="openImageSelector()"
+          icon="pi pi-image"
+          [label]="selectedImage ? 'Cambiar imagen' : 'Seleccionar imagen'"
+          styleClass="p-button-outlined"
+        ></p-button>
+      </div>
+      <!-- Input oculto para validación -->
+      <input type="hidden" formControlName="image" />
+      <!-- Mensaje de error para la imagen -->
+      <small
+        *ngIf="
+          (submitted || f['image'].touched) && f['image'].errors?.['required']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        Debes seleccionar una imagen para el proyecto.
+      </small>
+    </div>
+
+    <div class="field">
+      <label
+        for="dueDate"
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >
+        Fecha de Finalización
+      </label>
+      <!-- Aplica ngClass al componente p-datePicker -->
+      <p-date-picker
+        id="dueDate"
+        formControlName="dueDate"
+        [showIcon]="true"
+        dateFormat="dd/mm/yy"
+        [minDate]="minDate"
+        yearRange="2025:2030"
+        [style]="{ width: '100%' }"
+        [inputStyleClass]="
+          'w-full px-3 py-2 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all'
+        "
+        placeholder="Seleccionar fecha"
+        readonlyInput="true"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            (submitted || f['dueDate'].touched) && f['dueDate'].errors,
+        }"
+      />
+      <!-- Mensaje de error para la fecha -->
+      <small
+        *ngIf="
+          (submitted || f['dueDate'].touched) &&
+          f['dueDate'].errors?.['required']
+        "
+        class="p-error block mt-1 text-xs text-red-400"
+      >
+        La fecha de entrega es requerida.
+      </small>
+    </div>
+
+    <div class="flex justify-end gap-2 pt-4">
+      <p-button
+        type="button"
+        (click)="close()"
+        label="Cancelar"
+        styleClass="p-button-text"
+        [disabled]="loading"
+      ></p-button>
+      <p-button
+        type="submit"
+        label="Crear Proyecto"
+        [loading]="loading"
+        [disabled]="loading"
+      ></p-button>
+    </div>
+  </form>
+</div>
+
+<!-- Image selector dialog (sin cambios aquí) -->
+<p-dialog
+  [(visible)]="showImageSelector"
+  header="Seleccionar Imagen"
+  [modal]="true"
+  [breakpoints]="{ '960px': '75vw', '640px': '80vw' }"
+  [style]="{ width: '40vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-dialog-custom"
+  [maskStyleClass]="'bg-black/60'"
+  [dismissableMask]="true"
+  [closeOnEscape]="true"
+  [transitionOptions]="'400ms cubic-bezier(0.25, 0.8, 0.25, 1)'"
+  styleClass="p-dialog-custom p-dialog-enter-from-top"
+  maskStyleClass="bg-black/60"
+>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+    <div
+      *ngFor="let image of availableImages"
+      class="aspect-video rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-200 hover:border-primary"
+      [ngClass]="{
+        'border-primary': selectedImage?.id === image.id,
+        'border-gray-200 dark:border-gray-700': selectedImage?.id !== image.id,
+      }"
+      (click)="selectImage(image)"
+    >
+      <img
+        [src]="image.file?.url"
+        class="w-full h-full object-cover"
+        [alt]="'Imagen de proyecto'"
+      />
+    </div>
+  </div>
+</p-dialog>

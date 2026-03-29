@@ -1,0 +1,16 @@
+{
+  "terminal.integrated.fontFamily": "Jetbrains Mono",
+  "terminal.integrated.fontLigatures.enabled": true,
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.fontWeight": "500",
+  "editor.codeLensFontFamily": "Jetbrains Mono",
+  "chat.editor.fontFamily": "Jetbrains Mono",
+  "chat.editor.fontSize": 12,
+  "editor.fontFamily": "'JetBrains Mono'",
+  "files.autoSave": "afterDelay",
+  "editor.fontSize": 12,
+  "editor.fontLigatures": true,
+  "editor.fontWeight": "500",
+  "debug.console.fontSize": 12,
+  "scm.inputFontSize": 12
+}

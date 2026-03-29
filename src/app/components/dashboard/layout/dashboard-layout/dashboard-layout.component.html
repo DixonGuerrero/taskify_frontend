@@ -1,0 +1,299 @@
+<!-- Navbar -->
+<nav
+  class="fixed top-0 left-0 right-0 bg-gradient-to-r from-white to-gray-50 dark:from-[#1A1616] dark:to-[#201c1c] shadow-md z-50 px-4 h-16 font-['Raleway'] backdrop-blur-sm"
+>
+  <div class="flex items-center justify-between h-full">
+    <!-- Logo y Botón de Toggle -->
+    <div class="flex items-center space-x-4">
+      <button
+        (click)="toggleSidebar()"
+        class="text-[#4B4B4B] hover:text-[#FC3942] dark:text-gray-300 dark:hover:text-[#FF6C73] p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+      >
+        <i class="pi pi-bars text-xl"></i>
+      </button>
+      <div class="flex flex-col">
+        <a
+          routerLink="/dashboard"
+          class="flex flex-col focus:outline-none focus:ring-0"
+        >
+          <span
+            class="text-xl font-bold text-primary font-['Varela_Round'] tracking-wide"
+            >Taskify</span
+          >
+          <span class="text-sm font-semibold text-[#4B4B4B] dark:text-[#949494]"
+            >¡Bienvenido!</span
+          >
+        </a>
+      </div>
+    </div>
+
+    <!-- Perfil de Usuario -->
+    <div class="flex items-center space-x-4">
+      <p-button
+        icon="pi pi-bell"
+        [badge]="
+          unreadNotificationsCount > 0
+            ? unreadNotificationsCount.toString()
+            : ''
+        "
+        (click)="toggleNotifications($event)"
+        class="p-button-text p-button-rounded"
+        [ngClass]="{ 'animate-bell': animateBell }"
+      />
+      <div class="flex items-center">
+        <span
+          class="text-sm font-semibold text-[#4B4B4B] dark:text-[#949494] mr-3 hidden sm:inline"
+          >{{ currentUser.first_name }} {{ currentUser.last_name }}</span
+        >
+        <button
+          #btn
+          (click)="menu.toggle($event)"
+          class="flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2 transition-all group"
+        >
+          <div class="relative profile-hover">
+            <img
+              [src]="currentUser.image.file?.url"
+              alt="Foto de perfil"
+              class="w-10 h-10 rounded-full object-cover border-2 border-[#FC3942] dark:border-[#FF6C73] group-hover:border-[#D62C35] dark:group-hover:border-[#FFB8BC] transition-colors shadow-md"
+            />
+            <div
+              class="absolute -bottom-1 -right-1 w-4 h-4 bg-[#FC3942] dark:bg-[#FF6C73] rounded-full border-2 border-white dark:border-[#1A1616] animate-pulse"
+            ></div>
+          </div>
+          <i
+            class="pi pi-angle-down text-[#FC3942] dark:text-[#FF6C73] group-hover:text-[#D62C35] dark:group-hover:text-[#FFB8BC]"
+          ></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<p-menu
+  #menu
+  [model]="menuItems"
+  [popup]="true"
+  styleClass="w-56 border-[#FC3942] dark:border-[#FF6C73] rounded-xl font-medium text-surface-500 text-[Varela_Round] shadow-lg"
+></p-menu>
+
+<!-- Overlay para móvil cuando el sidebar está abierto -->
+<div
+  *ngIf="!isSidebarCollapsed() && isMobile()"
+  (click)="toggleSidebar()"
+  class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-30 md:hidden transition-opacity duration-300"
+></div>
+
+<!-- Sidebar -->
+<aside
+  [ngClass]="{
+    'w-64': !isSidebarCollapsed(),
+    'w-20': isSidebarCollapsed() && !isMobile(),
+    '-translate-x-full': isSidebarCollapsed() && isMobile(),
+    'translate-x-0': !isSidebarCollapsed() && isMobile(),
+  }"
+  class="fixed left-0 top-16 h-[calc(100vh-4rem)] bg-gradient-to-b from-white to-gray-50 dark:from-[#1A1616] dark:to-[#201c1c] shadow-lg transition-all duration-300 ease-in-out z-40 md:translate-x-0 font-['Raleway'] border-r border-gray-100 dark:border-gray-800"
+>
+  <!-- Navegación -->
+  <nav class="h-full py-4 flex flex-col">
+    <!-- Título de Páginas -->
+    <div class="px-4 mb-3">
+      <h2
+        class="text-sm font-bold text-[#4B4B4B] dark:text-[#949494] uppercase tracking-wider"
+        [ngClass]="{ hidden: isSidebarCollapsed() && !isMobile() }"
+      >
+        Páginas
+      </h2>
+    </div>
+
+    <!-- Menú Principal -->
+    <ul class="space-y-2 px-3">
+      <!-- Principal -->
+      <li>
+        <a
+          routerLink="/dashboard/projects"
+          routerLinkActive="bg-gradient-to-r from-[#FFF1F2] to-[#FFF5F5] text-[#FC3942] dark:from-[rgba(252,57,66,0.1)] dark:to-[rgba(252,57,66,0.05)] dark:text-[#FF6C73] font-bold"
+          (click)="toggleSidebar()"
+          class="flex items-center justify-center px-3 py-3 rounded-xl text-[#4B4B4B] dark:text-[#949494] hover:bg-gray-100 hover:text-[#FC3942] dark:hover:bg-gray-800 dark:hover:text-[#FF6C73] group transition-all font-semibold"
+          [ngClass]="{ 'justify-start': !isSidebarCollapsed() || isMobile() }"
+        >
+          <i class="pi pi-home text-lg"></i>
+          <span
+            [ngClass]="{ hidden: isSidebarCollapsed() && !isMobile() }"
+            class="ml-3"
+            >Principal</span
+          >
+        </a>
+      </li>
+
+      <!-- Calendario -->
+      <li>
+        <a
+          routerLink="/dashboard/calendar"
+          routerLinkActive="bg-gradient-to-r from-[#FFF1F2] to-[#FFF5F5] text-[#FC3942] dark:from-[rgba(252,57,66,0.1)] dark:to-[rgba(252,57,66,0.05)] dark:text-[#FF6C73] font-bold"
+          (click)="toggleSidebar()"
+          class="flex items-center justify-center px-3 py-3 rounded-xl text-[#4B4B4B] dark:text-[#949494] hover:bg-gray-100 hover:text-[#FC3942] dark:hover:bg-gray-800 dark:hover:text-[#FF6C73] group transition-all font-semibold"
+          [ngClass]="{ 'justify-start': !isSidebarCollapsed() || isMobile() }"
+        >
+          <i class="pi pi-calendar text-lg"></i>
+          <span
+            [ngClass]="{ hidden: isSidebarCollapsed() && !isMobile() }"
+            class="ml-3"
+            >Calendario</span
+          >
+        </a>
+      </li>
+    </ul>
+
+    <!-- Separador -->
+    <div class="my-4 px-4">
+      <div
+        class="border-t border-gray-200 dark:border-gray-700 opacity-50"
+      ></div>
+    </div>
+
+    <!-- Proyectos -->
+    <div class="px-4 flex-1 overflow-y-auto">
+      <div class="flex items-center justify-between mb-3">
+        <h2
+          class="text-sm font-bold text-[#4B4B4B] dark:text-[#949494] uppercase tracking-wider"
+          [ngClass]="{ hidden: isSidebarCollapsed() && !isMobile() }"
+        >
+          Mis Proyectos
+        </h2>
+      </div>
+
+      <!-- Loading indicator -->
+      <div *ngIf="loading" class="flex justify-center py-2">
+        <i class="pi pi-spin pi-spinner text-primary"></i>
+      </div>
+
+      <!-- No projects message -->
+      <div
+        *ngIf="
+          !loading &&
+          projects.length === 0 &&
+          (!isSidebarCollapsed() || isMobile())
+        "
+        class="text-center py-2 text-sm text-gray-500 dark:text-gray-400"
+      >
+        No tienes proyectos
+      </div>
+
+      <!-- Lista de Proyectos -->
+      <ul class="">
+        <li *ngFor="let project of projects">
+          <a
+            [routerLink]="['/dashboard/projects/detail']"
+            [class.bg-gradient-to-r]="isCurrentProject(project)"
+            [class.from-[#FFF1F2]]="isCurrentProject(project)"
+            [class.to-[#FFF5F5]]="isCurrentProject(project)"
+            [class.text-[#FC3942]]="isCurrentProject(project)"
+            [class.dark:from-[rgba(252,57,66,0.1)]]="isCurrentProject(project)"
+            [class.dark:to-[rgba(252,57,66,0.05)]]="isCurrentProject(project)"
+            [class.dark:text-[#FF6C73]]="isCurrentProject(project)"
+            [class.font-bold]="isCurrentProject(project)"
+            class="flex items-center justify-center px-3 py-2 rounded-xl text-[#4B4B4B] dark:text-[#949494] hover:bg-gray-100 hover:text-[#FC3942] dark:hover:bg-gray-800 dark:hover:text-[#FF6C73] group transition-all"
+            [ngClass]="{ 'justify-start': !isSidebarCollapsed() || isMobile() }"
+            (click)="openProject(project)"
+          >
+            <div class="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
+              <img
+                [src]="project.image.file?.url"
+                [alt]="project.name"
+                class="w-full h-full object-cover"
+                onerror="this.src = 'assets/default-project.png'"
+              />
+            </div>
+            <span
+              class="truncate text-sm ml-3 font-bold"
+              [ngClass]="{ hidden: isSidebarCollapsed() && !isMobile() }"
+            >
+              {{ project.name }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+
+<!-- Contenido Principal -->
+<main
+  [ngClass]="{
+    'ml-64': !isSidebarCollapsed() && !isMobile(),
+    'ml-20': isSidebarCollapsed() && !isMobile(),
+    'ml-0': isMobile(),
+  }"
+  class="pt-20 px-4 min-h-screen transition-all duration-300 ease-in-out bg-gradient-to-br from-[#F7F7F7] to-[#F0F0F0] dark:from-[#121212] dark:to-[#161616] font-['Raleway']"
+>
+  <div class="max-w-7xl mx-auto">
+    <router-outlet />
+  </div>
+</main>
+
+<!-- Popover Notificaciones -->
+<p-popover #notificationsPopover [appendTo]="'body'">
+  <ng-template pTemplate="content">
+    <div
+      class="p-4 max-h-64 overflow-y-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg"
+    >
+      <div class="notification-header mb-3">
+        <button
+          pButton
+          label="Marcar todas como leídas"
+          (click)="markAllAsRead()"
+          class="p-button-secondary w-full"
+        ></button>
+      </div>
+      <ul class="space-y-2">
+        <li *ngFor="let notification of notifications" class="mb-2">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 border border-gray-200 dark:border-gray-700"
+            [ngClass]="{
+              'bg-gray-50 dark:bg-gray-700 border-[#FC3942] dark:border-[#FF6C73]':
+                !notification.is_read,
+            }"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <span
+                  [ngClass]="{ 'font-bold': !notification.is_read }"
+                  class="text-sm text-[#4B4B4B] dark:text-[#949494]"
+                >
+                  {{ notification.message }}
+                </span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs text-gray-500 dark:text-gray-400">
+                  {{ notification.created_at | date: "short" }}
+                </span>
+                <button
+                  pButton
+                  icon="pi pi-eye"
+                  (click)="markAsRead(notification.id)"
+                  class="p-button-rounded p-button-secondary p-button-text"
+                  [disabled]="notification.is_read"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          *ngIf="notifications.length === 0"
+          class="text-center text-sm text-gray-500 dark:text-gray-400 py-2"
+        >
+          No hay notificaciones.
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="target">
+    <p-button
+      icon="pi pi-bell"
+      [badge]="unreadNotificationsCount.toString()"
+      (click)="toggleNotifications($event)"
+      class="p-button-text p-button-rounded"
+      [ngClass]="{ 'animate-bell': animateBell }"
+    ></p-button>
+  </ng-template>
+</p-popover>

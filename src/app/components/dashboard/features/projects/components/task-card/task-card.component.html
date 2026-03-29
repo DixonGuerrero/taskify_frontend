@@ -1,0 +1,16 @@
+<div 
+  class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 mb-2 cursor-move"
+  pDraggable="tasks"
+  (onDragStart)="dragStart(task)"
+  (onDragEnd)="dragEnd()"
+  (click)="showDetails(task)"
+  [style.animation-delay]="index * 0.1 + 's'"
+  @scaleIn
+>
+  <div class="flex justify-between items-center">
+    <span class="font-medium text-gray-800 dark:text-gray-200">{{ task.name }}</span>
+    <span [ngClass]="getPriorityClass(task.priority)" class="text-xs px-2 py-1 rounded-full">
+      {{ getPriorityText(task.priority) }}
+    </span>
+  </div>
+</div>

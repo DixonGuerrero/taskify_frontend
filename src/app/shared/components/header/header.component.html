@@ -1,0 +1,59 @@
+<header
+class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-[#1A1616] border-b border-gray-100 dark:border-primary/10 backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80"
+>
+<div
+  class="w-full max-w-[1240px] mx-auto h-16 flex items-center justify-between px-6"
+>
+  <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <img src="assets/Logo.png" class="h-12" alt="Taskify Logo" />
+  </a>
+  <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <div class="hidden sm:flex">
+      <p-button
+        routerLink="/auth/login"
+        label="Login"
+        styleClass="py-0.5 px-2"
+      />
+    </div>
+    <div class="flex justify-center sm:hidden">
+      <p-button (onClick)="showMenu()" icon="pi pi-bars" />
+    </div>
+  </div>
+  <div
+    class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+    id="navbar-sticky"
+  >
+    <ul
+      class="flex gap-5 font-medium text-gray-600 dark:text-[#D4D4D4]/80"
+    >
+      <li>
+        <a
+          href="/home/"
+          class="hover:text-primary transition-colors cursor-pointer"
+        >
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a
+          href="/home/pricing"
+          class="hover:text-primary transition-colors cursor-pointer"
+    
+        >
+          Precios
+        </a>
+      </li>
+      
+      <li>
+        <a
+          routerLink="/home/roadmap"
+          class="hover:text-primary transition-colors cursor-pointer flex items-center gap-1"
+        >
+          Roadmap
+          <i class="pi pi-external-link text-xs"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</header>

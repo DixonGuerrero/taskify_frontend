@@ -1,0 +1,166 @@
+<main
+  class="w-screen flex flex-col min-h-screen items-center bg-[#F7F7F7] dark:bg-[#121212]"
+>
+  <div class="w-full max-w-[1240px] flex flex-col flex-grow">
+    <app-header></app-header>
+
+    <!-- Hero Section -->
+    <section class="relative mt-20">
+      <div class="relative h-[500px] overflow-hidden rounded-lg">
+        <img
+          src="assets/Roadmap.webp"
+          alt="Roadmap Background"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center text-white px-4"
+        >
+          <h1
+            class="text-7xl font-bold mb-6 text-center"
+            style="font-family: 'Raleway', sans-serif"
+          >
+            El Futuro de Taskify
+          </h1>
+          <p
+            class="text-2xl text-center max-w-3xl"
+            style="font-family: 'Raleway', sans-serif"
+          >
+            Descubre las próximas funcionalidades que llevarán tu gestión de
+            proyectos al siguiente nivel.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="py-8 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div
+          *ngFor="let feature of features; let i = index"
+          class="bg-white dark:bg-[#1a1a1a] rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl"
+        >
+          <!-- Feature Header -->
+          <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center flex-1 min-w-0 mr-4">
+                <i
+                  [class]="feature.icon"
+                  class="text-2xl text-[#FC3942] mr-3 flex-shrink-0"
+                ></i>
+                <h2
+                  class="text-xl font-semibold text-gray-800 dark:text-white truncate"
+                >
+                  {{ feature.title }}
+                </h2>
+              </div>
+              <p-tag
+                [severity]="getStatusSeverity(feature.releaseInfo.status)"
+                [value]="getStatusLabel(feature.releaseInfo.status)"
+                class="whitespace-nowrap"
+              >
+              </p-tag>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              {{ feature.description }}
+            </p>
+          </div>
+
+          <!-- Feature Image -->
+          <div class="relative h-48 overflow-hidden">
+            <img
+              [src]="feature.image"
+              [alt]="feature.title"
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+
+          <!-- Feature Details -->
+          <div class="p-6">
+            <div class="mb-4">
+              <div class="flex justify-between mb-2">
+                <span class="text-sm text-gray-600 dark:text-gray-400"
+                  >Progreso</span
+                >
+                <span class="text-sm font-semibold text-[#FC3942]"
+                  >{{ feature.releaseInfo.progress }}%</span
+                >
+              </div>
+              <p-progressBar
+                [value]="feature.releaseInfo.progress"
+                [showValue]="false"
+                [color]="'#FC3942'"
+              >
+              </p-progressBar>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400"
+                  >Fecha estimada:</span
+                >
+                <span class="text-sm font-semibold">{{
+                  feature.releaseInfo.estimatedDate
+                }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm text-gray-600 dark:text-gray-400"
+                  >Trimestre:</span
+                >
+                <span class="text-sm font-semibold">{{
+                  feature.releaseInfo.quarter
+                }}</span>
+              </div>
+            </div>
+
+            <!-- Expandable Details -->
+            <div class="mt-4">
+              <button
+                pButton
+                type="button"
+                label="Ver más detalles"
+                icon="pi pi-chevron-down"
+                (click)="toggleFeature(i)"
+                class="p-button-text w-full"
+              ></button>
+
+              <div
+                *ngIf="feature.expanded"
+                class="mt-4 p-4 bg-gray-50 dark:bg-[#212121] rounded-lg"
+              >
+                <p class="text-gray-600 dark:text-gray-400">
+                  {{ feature.releaseInfo.details }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 px-4">
+      <div
+        class="bg-gradient-to-r from-[#FC3942] to-[#FF6C73] rounded-lg p-8 text-center text-white"
+      >
+        <h2
+          class="text-3xl font-bold mb-4"
+          style="font-family: 'Raleway', sans-serif"
+        >
+          Únete al Viaje de Taskify
+        </h2>
+        <p class="text-lg mb-6" style="font-family: 'Raleway', sans-serif">
+          Mantente atento a estas actualizaciones y haz que tus proyectos sean
+          aún más eficientes.
+        </p>
+        <p-button
+          label="Explora Taskify Ahora"
+          styleClass="p-button p-button-secondary font-bold"
+        />
+        
+      </div>
+    </section>
+  </div>
+</main>
+
+<app-footer />

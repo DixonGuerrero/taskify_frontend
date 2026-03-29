@@ -1,0 +1,128 @@
+<footer
+  class="w-full bg-white dark:bg-[#1A1616] border-t border-gray-200 dark:border-primary/10"
+>
+  <div class="mx-auto max-w-[1240px] px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Logo y descripción -->
+      <div class="col-span-1 md:col-span-2">
+        <img src="assets/Logo.png" alt="Taskify Logo" class="h-8 mb-4" />
+        <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm max-w-md">
+          Simplifica la gestión de proyectos y mejora la colaboración en equipo
+          con Taskify.
+        </p>
+      </div>
+
+      <!-- Enlaces Producto -->
+      <div>
+        <h3 class="font-bold text-surface-900 dark:text-[#D4D4D4] mb-4">
+          Producto
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Características</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Precios</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Guías</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Enlaces Compañía -->
+      <div>
+        <h3 class="font-bold text-surface-900 dark:text-[#D4D4D4] mb-4">
+          Compañía
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Acerca de</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Blog</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary text-sm"
+              >Contacto</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <!-- Add this before the Footer Bottom section -->
+    <div class="flex justify-center my-8">
+      <div class="flex  gap-3 justify-center">
+        <i class="pi pi-sun text-gray-600 dark:text-[#D4D4D4]/80 text-xl"></i>
+        <p-toggleSwitch 
+          [(ngModel)]="darkMode" 
+          (onChange)="toggleDarkMode()"
+          styleClass="theme-toggle"
+        ></p-toggleSwitch>
+        <i class="pi pi-moon text-gray-600 dark:text-[#D4D4D4]/80 text-xl"></i>
+      </div>
+    </div>
+    
+    <!-- Separador -->
+    <div
+      class="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-8"
+    ></div>
+    
+    <!-- Footer Bottom -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-600 dark:text-[#D4D4D4]/80 text-sm">
+        © 2024 Taskify. Todos los derechos reservados.
+      </p>
+      <div class="flex gap-6">
+        <a
+          href="#"
+          class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary"
+        >
+          <i class="pi pi-facebook text-xl"></i>
+        </a>
+        <a
+          href="#"
+          class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary"
+        >
+          <i class="pi pi-twitter text-xl"></i>
+        </a>
+        <a
+          href="#"
+          class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary"
+        >
+          <i class="pi pi-linkedin text-xl"></i>
+        </a>
+        <a
+          href="#"
+          class="text-gray-600 dark:text-[#D4D4D4]/80 hover:text-primary"
+        >
+          <i class="pi pi-github text-xl"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

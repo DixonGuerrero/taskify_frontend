@@ -1,0 +1,297 @@
+.project-detail-container {
+  margin-bottom: 1.5rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.project-detail-container:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Scrollbar styling */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #FC3942;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #D62C35;
+}
+
+/* Dark mode scrollbar */
+.dark .overflow-y-auto::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.dark .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #FF6C73;
+}
+
+.dark .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #ff8a8f;
+}
+
+/* Hover effect for buttons */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Progress bar animation */
+.bg-primary {
+  transition: width 0.6s ease;
+}
+
+/* Card hover effects */
+.bg-gray-50, .dark .bg-gray-800 {
+  transition: all 0.3s ease;
+}
+
+.bg-gray-50:hover, .dark .bg-gray-800:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Drag and drop styles */
+:host ::ng-deep .p-draggable-enter {
+  border: 2px dashed var(--primary-color) !important;
+  background-color: rgba(252, 57, 66, 0.05) !important;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+/* Task card hover effect */
+.task-card {
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Column height consistency */
+.task-column {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Task column header */
+.task-column-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Task priority badges */
+.priority-badge {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.priority-high {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: rgb(185, 28, 28);
+}
+
+.priority-medium {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: rgb(180, 83, 9);
+}
+
+.priority-low {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: rgb(30, 64, 175);
+}
+
+.dark .priority-high {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: rgb(252, 165, 165);
+}
+
+.dark .priority-medium {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: rgb(253, 186, 116);
+}
+
+.dark .priority-low {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: rgb(147, 197, 253);
+}
+
+/* Member list item hover */
+.flex.items-center.justify-between {
+  transition: all 0.2s ease;
+}
+
+/* Input field focus effect */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(252, 57, 66, 0.2);
+}
+
+/* Toast customization */
+:host ::ng-deep .p-toast .p-toast-message {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+:host ::ng-deep .p-toast .p-toast-message-success {
+  background-color: #ecfdf5;
+  border-left: 6px solid #10b981;
+  color: #065f46;
+}
+
+:host ::ng-deep .p-toast .p-toast-message-error {
+  background-color: #fef2f2;
+  border-left: 6px solid #ef4444;
+  color: #991b1b;
+}
+
+:host ::ng-deep .p-toast .p-toast-icon-close {
+  color: currentColor;
+  opacity: 0.5;
+}
+
+:host ::ng-deep .p-toast .p-toast-icon-close:hover {
+  opacity: 0.75;
+}
+
+/* Add these styles to the existing CSS file */
+
+/* Drag and drop styles */
+:host ::ng-deep .p-draggable-enter {
+  border: 2px dashed var(--primary-color) !important;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+/* Task card hover effect */
+.bg-white.p-3.rounded-lg {
+  transition: all 0.2s ease;
+}
+
+.bg-white.p-3.rounded-lg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Column height consistency */
+.grid.grid-cols-1.md\:grid-cols-3 > div {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar for task columns */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #FC3942;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #D62C35;
+}
+
+/* Task drag animation */
+.p-draggable {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Improve mobile drag and drop */
+@media (max-width: 768px) {
+  .p-draggable-dragging {
+    transform: scale(1.05);
+    opacity: 0.9;
+    z-index: 1000;
+    pointer-events: none; /* Prevents issues with touch events */
+  }
+  
+  /* Make columns more visible when dragging */
+  .task-column.p-draggable-enter {
+    border: 3px dashed var(--primary-color) !important;
+    background-color: rgba(252, 57, 66, 0.1) !important;
+    transition: all 0.3s ease;
+  }
+}
+
+/* Ensure task columns have enough height on mobile */
+@media (max-width: 768px) {
+  .grid.grid-cols-1.md\:grid-cols-3 > div {
+    min-height: 200px;
+    margin-bottom: 1rem;
+  }
+}
+
+.p-draggable-dragging {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+/* Empty column placeholder */
+.empty-column-message {
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Add task button */
+.add-task-button {
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+  align-self: center;
+}
+
+/* Task count badge */
+.task-count {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}

@@ -1,0 +1,25 @@
+<div
+  class="min-h-screen bg-white dark:bg-[conic-gradient(from_45deg_at_50%_50%,#151515,#1A1616,#201D1D,#151515)]"
+>
+  <router-outlet></router-outlet>
+  <p-toast 
+    position="top-right" 
+    [breakpoints]="{ 
+      '920px': { 
+        width: '90%', 
+        right: 'auto', 
+        left: '50%', 
+        transform: 'translateX(-50%)',
+        top: '1rem',
+        position: 'fixed'
+      } 
+    }" 
+    [showTransitionOptions]="'500ms'" 
+    [hideTransitionOptions]="'500ms'" 
+    [showTransformOptions]="'translateY(100%)'"
+  />
+  <p-confirm-dialog 
+    [style]="{maxWidth: '90vw', minWidth: '300px' }"
+  />
+  
+</div>

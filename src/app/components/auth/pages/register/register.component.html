@@ -1,0 +1,179 @@
+<main
+  class="w-screen min-h-screen flex flex-col items-center justify-center p-4"
+>
+  <div
+    class="w-full max-w-md bg-white dark:bg-[#1A1616] p-8 rounded-3xl border border-gray-100 dark:border-primary/10 shadow-lg dark:shadow-primary/5"
+  >
+    <!-- Título -->
+    <h1
+      class="text-4xl font-extrabold font-[Raleway] text-center mb-8 text-primary tracking-tighter"
+    >
+      Registro
+    </h1>
+
+    <!-- Formulario -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Nombre -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Nombre
+        </label>
+        <input
+          type="text"
+          formControlName="first_name"
+          class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          placeholder="Ingrese su nombre"
+          [ngClass]="{
+            'bg-red-50 dark:bg-[#1A1616]': submitted && f['first_name'].errors
+          }"
+        />
+      </div>
+
+      <!-- Apellido -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Apellido
+        </label>
+        <input
+          type="text"
+          formControlName="last_name"
+          class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          placeholder="Ingrese su apellido"
+          [ngClass]="{
+            'bg-red-50 dark:bg-[#1A1616]': submitted && f['last_name'].errors
+          }"
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          placeholder="Ingrese su email"
+          [ngClass]="{
+            'bg-red-50 dark:bg-[#1A1616] border-red-500 dark:border-red-700':
+              submitted && f['email'].errors
+          }"
+        />
+        <!-- Mensajes de error para email -->
+        @if (submitted && f['email'].errors) {
+        <div class="text-red-500 text-xs mt-1">
+          @if (f['email'].errors['required']) {
+          <div>El email es requerido.</div>
+          } @if (f['email'].errors['email']) {
+          <div>El formato del email no es válido.</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Teléfono -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Teléfono
+        </label>
+        <input
+          type="tel"
+          formControlName="phone"
+          class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          placeholder="Ingrese su número de teléfono"
+          [ngClass]="{
+            'bg-red-50 dark:bg-[#1A1616] border-red-500 dark:border-red-700':
+              submitted && f['phone'].errors
+          }"
+        />
+        <!-- Mensajes de error para teléfono -->
+        @if (submitted && f['phone'].errors) {
+        <div class="text-red-500 text-xs mt-1">
+          @if (f['phone'].errors['required']) {
+          <div>El teléfono es requerido.</div>
+          } @if (f['phone'].errors['pattern']) {
+          <div>El formato del teléfono no es válido.</div>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Nombre de Usuario -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Nombre de Usuario
+        </label>
+        <input
+          type="text"
+          formControlName="username"
+          class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          placeholder="Ingrese su nombre de usuario"
+          [ngClass]="{
+            'bg-red-50 dark:bg-[#1A1616]': submitted && f['username'].errors
+          }"
+        />
+      </div>
+
+      <!-- Contraseña -->
+      <div class="space-y-2">
+        <label
+          class="block text-sm font-bold text-gray-700 dark:text-[#D4D4D4]"
+        >
+          Contraseña
+        </label>
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="w-full px-3 py-2 bg-red-50 dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium pr-10 border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+            placeholder="Ingrese su contraseña"
+            [ngClass]="{
+              'bg-red-50 dark:bg-[#1A1616]': submitted && f['password'].errors
+            }"
+          />
+          <button
+            type="button"
+            (click)="togglePassword()"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 dark:text-[#D4D4D4] hover:text-primary transition-colors"
+          >
+            <i
+              class="pi"
+              [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"
+            ></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón Registro -->
+      <p-button
+        type="submit"
+        [loading]="loading"
+        label="Registrarse"
+        styleClass="w-full mb-3"
+      ></p-button>
+      <!-- Enlace de Login -->
+      <div class="text-center text-sm font-medium">
+        <span class="text-gray-700 dark:text-[#D4D4D4]">
+          ¿Ya tienes una cuenta?
+        </span>
+        <a
+          routerLink="/auth/login"
+          class="text-primary hover:underline font-bold"
+        >
+          Iniciar Sesión
+        </a>
+      </div>
+    </form>
+  </div>
+</main>

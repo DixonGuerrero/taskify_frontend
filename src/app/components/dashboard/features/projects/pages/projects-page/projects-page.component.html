@@ -1,0 +1,187 @@
+<div class="p-4 md:p-6">
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6"
+  >
+    <div>
+      <h1 class="text-2xl font-bold mb-2">Mis Proyectos</h1>
+      <p class="text-gray-600 dark:text-gray-400">
+        Gestiona tus proyectos y tareas en un solo lugar
+      </p>
+    </div>
+    <div
+      class="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 w-full sm:w-auto items-center"
+    >
+      <div class="relative w-full sm:w-auto">
+        <span
+          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+        >
+          <i class="pi pi-search text-gray-500 dark:text-gray-400"></i>
+        </span>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar proyectos..."
+          class="w-full sm:w-auto pl-10 pr-4 py-2.5 h-[40px] bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+        />
+      </div>
+      <div class="flex gap-3 w-full md:w-auto">
+        <!-- Join Project Button -->
+        <p-button
+          icon="pi pi-users"
+          label="Unirse"
+          iconPos="right"
+          styleClass="py-1 px-4 p-button-outlined"
+          (onClick)="showJoinDialog = true"
+        />
+        <!-- Create Project Button -->
+        <p-button
+          icon="pi pi-folder-plus"
+          label="Nuevo"
+          iconPos="right"
+          styleClass="py-1 px-4"
+          (onClick)="openCreateProjectDialog()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+  </div>
+
+  <!-- No projects state -->
+  <div
+    *ngIf="!loading && projects.length === 0"
+    class="flex flex-col items-center justify-center py-12"
+    @fadeIn
+  >
+    <div class="text-center max-w-md">
+      <div
+        class="bg-primary-100 rounded-full pl-[16px] pr-[12px] pt-[10px] pb-[10px] mb-4 inline-block"
+      >
+        <i
+          class="pi pi-folder-open text-3xl text-primary dark:text-primary"
+        ></i>
+      </div>
+      <h3 class="text-xl font-medium mb-2">No tienes proyectos</h3>
+      <p class="text-gray-500 dark:text-gray-400 mb-4">
+        Crea un nuevo proyecto o únete a uno existente para comenzar a organizar
+        tus tareas
+      </p>
+      <div class="flex gap-3 justify-center">
+        <p-button
+          label="Unirse a un proyecto"
+          icon="pi pi-users"
+          styleClass="p-button-outlined"
+          (onClick)="showJoinDialog = true"
+        ></p-button>
+        <p-button
+          label="Crear proyecto"
+          icon="pi pi-plus"
+          (onClick)="openCreateProjectDialog()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects grid -->
+  <div
+    *ngIf="!loading && projects.length > 0"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+  >
+    <app-project-card
+      *ngFor="
+        let project of projects | filter : searchTerm : 'name';
+        let i = index
+      "
+      [project]="project"
+      [index]="i"
+      (projectDeleted)="handleProjectDeleted($event)"
+    ></app-project-card>
+
+    <!-- Create project card -->
+    <div
+      class="border border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-primary dark:hover:border-primary transition-colors"
+      (click)="openCreateProjectDialog()"
+      @scaleIn
+    >
+      <div class="bg-primary-100 rounded-full py-[10px] px-[12px] mb-4">
+        <i
+          class="pi pi-folder-plus text-3xl text-primary dark:text-primary"
+        ></i>
+      </div>
+      <h3 class="text-xl font-medium mb-2 text-center">Crear nuevo proyecto</h3>
+      <p class="text-gray-500 dark:text-gray-400 text-center mb-4">
+        Inicia un nuevo proyecto para organizar tus tareas
+      </p>
+      <p-button
+        pButton
+        label="Crear proyecto"
+        icon="pi pi-folder-plus"
+        styleClass="py-1 px-4"
+      />
+    </div>
+  </div>
+
+  <!-- Join project dialog -->
+  <p-dialog
+    [(visible)]="showJoinDialog"
+    header="Unirse a un proyecto"
+    [modal]="true"
+    [dismissableMask]="true"
+    [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+    [style]="{ width: '30rem' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="p-4">
+      <p class="mb-4 text-gray-600 dark:text-gray-400">
+        Ingresa el código de invitación para unirte a un proyecto existente.
+      </p>
+
+      <div class="mb-6">
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          Código de invitación
+        </label>
+        <div class="relative">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+          >
+            <i class="pi pi-key text-gray-500 dark:text-gray-400"></i>
+          </span>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="projectCode"
+            placeholder="Ingresa el código de invitación"
+            class="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#1A1616] rounded-lg text-gray-700 dark:text-[#D4D4D4] focus:outline-none font-medium border border-gray-200 dark:border-primary/10 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+            [disabled]="isJoining"
+          />
+        </div>
+        <small class="text-gray-500 dark:text-gray-400 mt-1 block">
+          El código debe ser proporcionado por el administrador del proyecto.
+        </small>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <p-button
+          label="Cancelar"
+          styleClass="p-button-text"
+          [disabled]="isJoining"
+          (onClick)="showJoinDialog = false"
+        ></p-button>
+
+        <p-button
+          label="Unirse"
+          icon="pi pi-users"
+          [loading]="isJoining"
+          [disabled]="!projectCode.trim()"
+          (onClick)="joinProject()"
+        ></p-button>
+      </div>
+    </div>
+  </p-dialog>
+</div>
