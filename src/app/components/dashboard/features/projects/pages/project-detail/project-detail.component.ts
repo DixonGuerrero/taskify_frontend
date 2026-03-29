@@ -150,6 +150,19 @@ export class ProjectDetailComponent implements OnInit {
     this.updateProjectProgress();
   }
 
+  onTaskStatusChange(event: { task: Task; newStatus: TaskStatus }): void {
+    const { task, newStatus } = event;
+
+    // Set the dragged task temporarily for the update method
+    this.draggedTask = task;
+
+    // Call the existing update method
+    this.updateTaskStatus(newStatus);
+
+    // Clear dragged task after update
+    this.draggedTask = null;
+  }
+
   loadProjectTasks(projectId: number): void {
     this.taskService.findByProjectId(projectId).subscribe({
       next: (tasks) => {
