@@ -11,13 +11,14 @@ import { Tag, TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { TaskEditFormComponent } from '../task-edit-form/task-edit-form.component';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MenuModule } from 'primeng/menu';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Task, TaskPriority } from '../../../../../../core/models';
 import { File as TaskFile } from '../../../../../../core/models/file';
+import { ErrorResponse } from '../../../../../../core/models/error/error.model';
 import { TaskService } from '../../../../../../core/services/task/task.service';
 import { FileService } from '../../../../../../core/services/file/file.service';
 
@@ -30,11 +31,11 @@ import { FileService } from '../../../../../../core/services/file/file.service';
     ButtonModule,
     TagModule,
     TooltipModule,
-    ConfirmPopupModule,
     FileUploadModule,
     ToastModule,
     ProgressBarModule,
     MenuModule,
+    OverlayPanelModule,
   ],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.css',
@@ -42,8 +43,7 @@ import { FileService } from '../../../../../../core/services/file/file.service';
 export class TaskDetailsComponent implements OnInit, OnDestroy {
   task!: Task;
   private dataSent = false;
-  uploadProgress = signal(0);
-  isUploading = signal(false);
+  progress = signal(0);
   private uploadInterval: any = null;
 
   constructor(
@@ -104,21 +104,14 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
 
   deleteTask(event: Event) {
     this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: '¿Estás seguro de que deseas eliminar esta tarea?',
-      header: 'Confirmar eliminación',
-      closable: true,
-      closeOnEscape: true,
-      icon: 'pi pi-exclamation-triangle',
-      rejectButtonProps: {
-        label: 'Cancelar',
-        severity: 'secondary',
-        outlined: true,
-      },
-      acceptButtonProps: {
-        label: 'Eliminar',
-        severity: 'danger',
-      },
+      message: '¿Estás seguro? Esta acción no se puede deshacer.',
+      header: 'Eliminar tarea',
+      icon: 'pi pi-exclamation-circle text-red-500 text-3xl',
+      acceptLabel: 'Eliminar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      rejectButtonStyleClass:
+        'p-button-secondary p-button-sm p-button-outlined',
       accept: () => {
         if (this.task.id) {
           this.taskService.deleteById(this.task.id).subscribe({
@@ -144,12 +137,7 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
         }
       },
       reject: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Cancelado',
-          detail: 'Has cancelado la eliminación de la tarea',
-          life: 3000,
-        });
+        // Modal closed without action
       },
     });
   }
@@ -286,95 +274,10 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
     a.click();
   }
 
-  onFileUpload(event: { files: File[] }): void {
-    if (!this.task.id || event.files.length === 0 || this.isUploading()) {
-      return;
-    }
-
-    const file = event.files[0];
-    this.isUploading.set(true);
-    this.uploadProgress.set(0);
-
-    // Clear any existing interval
-    if (this.uploadInterval) {
-      clearInterval(this.uploadInterval);
-    }
-
-    // Show upload toast
-    this.messageService.add({
-      key: 'upload',
-      sticky: true,
-      severity: 'custom',
-      summary: 'Subiendo archivo...',
-      detail: file.name,
-    });
-
-    // Simulate progress animation
-    this.uploadInterval = setInterval(() => {
-      if (this.uploadProgress() < 90) {
-        this.uploadProgress.update((v) => v + 10);
-      }
-    }, 200);
-
-    this.taskService.addFile(this.task.id, file).subscribe({
-      next: () => {
-        // Complete progress
-        this.uploadProgress.set(100);
-        clearInterval(this.uploadInterval);
-
-        // Close upload toast and show success
-        this.messageService.clear('upload');
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Archivo cargado',
-          detail: 'El archivo se ha subido correctamente',
-          life: 3000,
-        });
-
-        // Refresh task data to show the new attachment
-        this.taskService.findById(this.task.id!).subscribe({
-          next: (updatedTask) => {
-            this.task = updatedTask;
-          },
-          error: (error) => {
-            console.error('Error al actualizar la tarea:', error);
-          },
-        });
-
-        // Reset state after delay
-        setTimeout(() => {
-          this.isUploading.set(false);
-          this.uploadProgress.set(0);
-        }, 500);
-      },
-      error: (error) => {
-        clearInterval(this.uploadInterval);
-        this.messageService.clear('upload');
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo subir el archivo. Por favor, inténtalo de nuevo.',
-        });
-        console.error('Error al subir archivo:', error);
-        this.isUploading.set(false);
-        this.uploadProgress.set(0);
-      },
-    });
-  }
-
-  closeUploadToast(): void {
-    this.messageService.clear('upload');
-    if (this.uploadInterval) {
-      clearInterval(this.uploadInterval);
-    }
-    this.isUploading.set(false);
-    this.uploadProgress.set(0);
-  }
-
-  getAttachmentMenuItems(
-    attachment: TaskFile,
-    targetButton: HTMLElement,
-  ): MenuItem[] {
+  /**
+   * Genera los items del menú contextual para un archivo adjunto
+   */
+  getAttachmentMenuItems(attachment: TaskFile): MenuItem[] {
     return [
       {
         label: 'Descargar',
@@ -384,72 +287,124 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
       {
         label: 'Eliminar',
         icon: 'pi pi-trash',
-        command: () => this.confirmDeleteAttachment(targetButton, attachment),
+        command: () => this.deleteAttachment(attachment),
       },
     ];
   }
 
-  confirmDeleteAttachment(target: HTMLElement, attachment: TaskFile): void {
+  /**
+   * Elimina un archivo adjunto con confirmación
+   */
+  deleteAttachment(attachment: TaskFile): void {
     this.confirmationService.confirm({
-      target: target,
-      message: `¿Estás seguro de que deseas eliminar "${attachment.original_name}"?`,
-      header: 'Confirmar eliminación',
-      closable: true,
-      closeOnEscape: true,
-      icon: 'pi pi-exclamation-triangle',
-      rejectButtonProps: {
-        label: 'Cancelar',
-        severity: 'secondary',
-        outlined: true,
-      },
-      acceptButtonProps: {
-        label: 'Eliminar',
-        severity: 'danger',
-      },
+      message: `¿Estás seguro de eliminar "${attachment.original_name ?? 'este archivo'}"?`,
+      header: 'Eliminar archivo',
+      icon: 'pi pi-exclamation-circle text-red-500 text-3xl',
+      acceptLabel: 'Eliminar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      rejectButtonStyleClass:
+        'p-button-secondary p-button-sm p-button-outlined',
       accept: () => {
-        if (!attachment.id) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo identificar el archivo a eliminar',
+        if (attachment.id) {
+          this.fileService.deleteById(attachment.id).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Archivo eliminado',
+                detail: 'El archivo ha sido eliminado correctamente',
+              });
+              // Remove attachment from task locally
+              if (this.task.attachments) {
+                this.task.attachments = this.task.attachments.filter(
+                  (att) => att.id !== attachment.id,
+                );
+              }
+            },
+            error: (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail:
+                  'No se pudo eliminar el archivo. Por favor, inténtalo de nuevo.',
+              });
+              console.error('Error al eliminar archivo:', error);
+            },
           });
-          return;
         }
-
-        this.fileService.deleteById(attachment.id).subscribe({
-          next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Archivo eliminado',
-              detail: 'El archivo ha sido eliminado correctamente',
-              life: 3000,
-            });
-            // Remove from local array
-            if (this.task.attachments) {
-              this.task.attachments = this.task.attachments.filter(
-                (a) => a.id !== attachment.id,
-              );
-            }
-          },
-          error: (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail:
-                'No se pudo eliminar el archivo. Por favor, inténtalo de nuevo.',
-            });
-            console.error('Error al eliminar archivo:', error);
-          },
-        });
       },
       reject: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Cancelado',
-          detail: 'Has cancelado la eliminación del archivo',
-          life: 3000,
-        });
+        // Modal closed without action
       },
     });
+  }
+
+  onFileUpload(event: any): void {
+    const file = event.files?.[0];
+    if (!file || !this.task.id) {
+      return;
+    }
+
+    this.showUploadToast();
+
+    this.taskService.addFile(this.task.id, file).subscribe({
+      next: () => {
+        this.progress.set(100);
+        clearInterval(this.uploadInterval);
+        setTimeout(() => {
+          this.messageService.clear('upload');
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Archivo subido',
+            detail: 'El archivo ha sido subido correctamente',
+          });
+        }, 500);
+        // Reload task to show new attachment
+        this.taskService.findById(this.task.id!).subscribe({
+          next: (updatedTask: Task) => {
+            this.task = updatedTask;
+          },
+          error: (error: ErrorResponse) => {
+            console.error('Error al recargar la tarea:', error);
+          },
+        });
+      },
+      error: (error: ErrorResponse) => {
+        clearInterval(this.uploadInterval);
+        this.messageService.clear('upload');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo subir el archivo. Por favor, inténtalo de nuevo.',
+        });
+        console.error('Error al subir archivo:', error);
+      },
+    });
+  }
+
+  showUploadToast(): void {
+    this.progress.set(0);
+    this.messageService.add({
+      key: 'upload',
+      sticky: true,
+      severity: 'custom',
+      summary: 'Subiendo archivo...',
+      styleClass: 'backdrop-blur-lg rounded-2xl',
+    });
+
+    if (this.uploadInterval) {
+      clearInterval(this.uploadInterval);
+    }
+
+    this.uploadInterval = setInterval(() => {
+      if (this.progress() < 90) {
+        this.progress.update((v) => v + 10);
+      }
+    }, 300);
+  }
+
+  onUploadToastClose(): void {
+    clearInterval(this.uploadInterval);
+    this.progress.set(0);
   }
 }

@@ -1,36 +1,36 @@
 <div class="p-4">
   <!-- Upload Progress Toast -->
-  <p-toast position="top-center" key="upload" [baseZIndex]="5000">
+  <p-toast
+    position="top-center"
+    key="upload"
+    (onClose)="onUploadToastClose()"
+    [baseZIndex]="5000"
+  >
     <ng-template let-message #headless let-closeFn="closeFn">
-      <div
-        class="flex flex-col p-4 gap-3 w-80 bg-[#FC3942] dark:bg-[#FF6C73] rounded-xl shadow-lg"
+      <section
+        class="flex flex-col p-4 gap-4 w-full bg-primary/70 rounded-xl backdrop-blur-lg"
       >
-        <div class="flex items-center gap-3">
-          <i
-            class="pi pi-cloud-upload text-white text-xl"
-            [class.pi-spin]="uploadProgress() < 100"
-          ></i>
-          <span class="font-semibold text-sm text-white">{{
-            message.summary
-          }}</span>
+        <div class="flex items-center gap-5">
+          <i class="pi pi-cloud-upload text-white dark:text-black text-2xl"></i>
+          <span class="font-bold text-base text-white dark:text-black">
+            {{ message.summary }}
+          </span>
         </div>
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-2">
           <p-progressbar
-            [value]="uploadProgress()"
+            [value]="progress()"
             [showValue]="false"
-            [style]="{ height: '4px' }"
-            styleClass="!bg-white/30"
-          ></p-progressbar>
-          <div class="flex justify-between items-center">
-            <span class="text-xs text-white/90">{{ message.detail }}</span>
-            <span class="text-xs font-bold text-white"
-              >{{ uploadProgress() }}%</span
-            >
-          </div>
+            [style]="{ height: '4px', background: 'rgba(255,255,255,0.3)' }"
+            styleClass="[&_.p-progressbar-value]:bg-white [&_.p-progressbar-value]:dark:bg-black"
+          />
+          <label class="text-sm font-bold text-white dark:text-black">
+            {{ progress() }}% cargado
+          </label>
         </div>
-      </div>
+      </section>
     </ng-template>
   </p-toast>
+
   <!-- Header Section -->
   <div class="flex items-center justify-between mb-6">
     <div class="space-y-2">
@@ -104,35 +104,40 @@
         </h3>
         <p-fileupload
           mode="basic"
-          name="file"
+          chooseIcon="pi pi-upload"
+          [auto]="true"
           [customUpload]="true"
           (uploadHandler)="onFileUpload($event)"
-          [auto]="true"
-          chooseLabel="Agregar"
-          chooseIcon="pi pi-upload"
-          styleClass="p-button-xs p-button-outlined"
-          [disabled]="isUploading()"
-        ></p-fileupload>
+          chooseLabel=""
+          styleClass="p-button-outlined p-button-sm"
+        >
+        </p-fileupload>
       </div>
 
+      <!-- Existing Attachments List -->
       <div
-        *ngIf="task.attachments?.length; else noAttachments"
+        *ngIf="task.attachments?.length"
         class="grid grid-cols-1 sm:grid-cols-2 gap-3"
       >
         <div
-          *ngFor="let attachment of task.attachments; let i = index"
-          class="flex items-center gap-3 text-left border border-gray-200 dark:border-gray-700 rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors bg-white dark:bg-[#1A1616] w-full group"
+          *ngFor="let attachment of task.attachments"
+          class="group flex items-center gap-3 border border-gray-200 dark:border-gray-700 rounded-xl p-3 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all bg-white dark:bg-[#1A1616] w-full"
         >
-          <i
-            class="flex-shrink-0 text-[#FC3942] dark:text-[#FF6C73]"
-            [ngClass]="getAttachmentIconClasses(attachment)"
-          ></i>
+          <!-- File Icon -->
           <div
-            class="min-w-0 flex-1 cursor-pointer"
-            (click)="downloadAttachment(attachment)"
+            class="flex-shrink-0 w-10 h-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center"
           >
+            <i
+              class="text-lg text-[#FC3942] dark:text-[#FF6C73]"
+              [ngClass]="getAttachmentIconClasses(attachment)"
+            ></i>
+          </div>
+
+          <!-- File Info -->
+          <div class="min-w-0 flex-1">
             <p
-              class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate"
+              class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate"
+              [title]="attachment.original_name"
             >
               {{ attachment.original_name }}
             </p>
@@ -140,30 +145,45 @@
               {{ formatFileSize(attachment.file_size) }}
             </p>
           </div>
-          <div class="flex items-center gap-1">
-            <p-menu
-              #menu
-              [model]="getAttachmentMenuItems(attachment, menuButton)"
-              [popup]="true"
-              appendTo="body"
-            ></p-menu>
-            <button
-              #menuButton
-              type="button"
-              pButton
-              icon="pi pi-ellipsis-v"
-              class="p-button-text p-button-rounded p-button-sm"
-              (click)="menu.toggle($event)"
-            ></button>
-          </div>
+
+          <!-- Actions Menu -->
+          <p-overlayPanel #op [style]="{ minWidth: '140px' }">
+            <div class="flex flex-col gap-1">
+              <button
+                pButton
+                type="button"
+                label="Descargar"
+                icon="pi pi-download"
+                class="p-button-text p-button-sm justify-start"
+                (click)="downloadAttachment(attachment); op.hide()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Eliminar"
+                icon="pi pi-trash"
+                class="p-button-text p-button-sm justify-start text-red-500"
+                (click)="deleteAttachment(attachment); op.hide()"
+              ></button>
+            </div>
+          </p-overlayPanel>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-ellipsis-v"
+            class="p-button-text p-button-sm opacity-0 group-hover:opacity-100 transition-opacity"
+            (click)="op.toggle($event)"
+          ></button>
         </div>
       </div>
 
-      <ng-template #noAttachments>
-        <p class="text-sm text-gray-500 dark:text-gray-400 italic">
-          No hay archivos adjuntos
-        </p>
-      </ng-template>
+      <!-- Empty state -->
+      <p
+        *ngIf="!task.attachments?.length"
+        class="text-sm text-gray-500 dark:text-gray-400 italic"
+      >
+        No hay archivos adjuntos
+      </p>
     </div>
 
     <!-- Actions Section -->
