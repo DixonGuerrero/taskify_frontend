@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
@@ -9,7 +15,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DatePickerModule } from 'primeng/datepicker';
 import { MessageService } from 'primeng/api';
 import { Project, User } from '../../../../../../core/models';
-import { Task, TaskPriority, TaskRequest, TaskStatus } from '../../../../../../core/models/task';
+import {
+  Task,
+  TaskPriority,
+  TaskRequest,
+  TaskStatus,
+} from '../../../../../../core/models/task';
 import { TaskService } from '../../../../../../core/services/task/task.service';
 import { SelectModule } from 'primeng/select';
 import { ProjectStateService } from '../../../../../../core/services/project/project-state.service';
@@ -24,10 +35,10 @@ import { ProjectStateService } from '../../../../../../core/services/project/pro
     InputTextModule,
     TextareaModule,
     SelectModule,
-    DatePickerModule
+    DatePickerModule,
   ],
   templateUrl: './task-edit-form.component.html',
-  styleUrl: './task-edit-form.component.css'
+  styleUrl: './task-edit-form.component.css',
 })
 export class TaskEditFormComponent implements OnInit {
   taskForm!: FormGroup;
@@ -37,11 +48,11 @@ export class TaskEditFormComponent implements OnInit {
   minDate: Date = new Date();
   maxDate: Date = new Date();
   loading = false;
-  
+
   priorityOptions = [
     { label: 'Baja', value: TaskPriority.LOW },
     { label: 'Media', value: TaskPriority.MEDIUM },
-    { label: 'Alta', value: TaskPriority.HIGH }
+    { label: 'Alta', value: TaskPriority.HIGH },
   ];
 
   constructor(
@@ -50,7 +61,7 @@ export class TaskEditFormComponent implements OnInit {
     public config: DynamicDialogConfig,
     private messageService: MessageService,
     private taskService: TaskService,
-    private projectStateService: ProjectStateService
+    private projectStateService: ProjectStateService,
   ) {}
 
   ngOnInit(): void {
@@ -59,76 +70,94 @@ export class TaskEditFormComponent implements OnInit {
       this.project = this.task.project;
       this.maxDate = new Date(this.project.due_date);
       this.minDate = new Date(this.task.due_date);
-      
 
       this.projectStateService.getCurrentProject().subscribe({
         next: (project) => {
-          if(project) {
+          if (project) {
             this.members = project.members;
           }
         },
-      })
+      });
 
       this.initForm();
     } else {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'No se pudo cargar la tarea'
+        detail: 'No se pudo cargar la tarea',
       });
       this.close();
     }
   }
 
   initForm(): void {
+    // Buscar el usuario asignado en la lista de miembros para que p-select lo reconozca
+    const assignedUser = this.task.assigned
+      ? this.members.find((m) => m.id === this.task.assigned.id) ||
+        this.task.assigned
+      : null;
+
     this.taskForm = this.fb.group({
-      name: new FormControl<string>(this.task.name, [Validators.required, Validators.minLength(3)]),
-      description: new FormControl<string>(this.task.description, [Validators.required, Validators.minLength(10)]),
-      priority: new FormControl<TaskPriority>(this.task.priority, Validators.required),
-      dueDate: new FormControl<Date>(new Date(this.task.due_date), Validators.required),
-      assigned: new FormControl<User | null>(this.task.assigned, Validators.required)
+      name: new FormControl<string>(this.task.name, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      description: new FormControl<string>(this.task.description, [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+      priority: new FormControl<TaskPriority>(
+        this.task.priority,
+        Validators.required,
+      ),
+      dueDate: new FormControl<Date>(
+        new Date(this.task.due_date),
+        Validators.required,
+      ),
+      assigned: new FormControl<User | null>(assignedUser, Validators.required),
     });
   }
 
   onSubmit(): void {
     if (this.taskForm.invalid) {
-      Object.keys(this.taskForm.controls).forEach(key => {
+      Object.keys(this.taskForm.controls).forEach((key) => {
         this.taskForm.get(key)?.markAsTouched();
       });
       return;
     }
 
     this.loading = true;
-    
+
     const formValues = this.taskForm.value;
     const assigned: User = formValues.assigned;
-    
 
     if (!assigned || !assigned.id) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Debe seleccionar un usuario asignado'
+        detail: 'Debe seleccionar un usuario asignado',
       });
       this.loading = false;
       return;
     }
 
-    if(this.project.id == null){
+    if (this.project.id == null) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.'
+        detail:
+          'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.',
       });
       this.loading = false;
       return;
     }
 
-    if(this.task.id == null){
+    if (this.task.id == null) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.'
+        detail:
+          'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.',
       });
       this.loading = false;
       return;
@@ -141,16 +170,16 @@ export class TaskEditFormComponent implements OnInit {
       due_date: formValues.dueDate,
       assigned_id: assigned.id,
       project_id: this.project.id,
-      status: this.task.status
+      status: this.task.status,
     };
-    
-    this.taskService.update(this.task.id ,updatedTask).subscribe({
+
+    this.taskService.update(this.task.id, updatedTask).subscribe({
       next: () => {
         this.loading = false;
         this.messageService.add({
           severity: 'success',
           summary: 'Tarea actualizada',
-          detail: 'La tarea ha sido actualizada exitosamente'
+          detail: 'La tarea ha sido actualizada exitosamente',
         });
 
         this.task.name = updatedTask.name;
@@ -166,10 +195,11 @@ export class TaskEditFormComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.'
+          detail:
+            'No se pudo actualizar la tarea. Por favor, inténtalo de nuevo.',
         });
         console.error('Error al actualizar la tarea:', error);
-      }
+      },
     });
   }
 
