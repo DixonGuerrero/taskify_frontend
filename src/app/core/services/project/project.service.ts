@@ -155,6 +155,7 @@ export class ProjectService {
   /**
    * Guarda un nuevo proyecto en el backend.
    * Extrae el ID de la cabecera Location y usa findById para obtener el proyecto.
+   * Invalida las cachés de listas para actualizar el sidebar.
    * Ruta: POST /projects/v1
    */
   save(projectData: ProjectCreateRequest): Observable<Project> {
@@ -178,6 +179,13 @@ export class ProjectService {
                   () => new Error('ID inválido en la cabecera Location.'),
                 );
               }
+
+              // Clear list caches to force refresh in sidebar
+              this.projectsByCreatorCache.clear();
+              this.projectsByMemberCache.clear();
+              this.projectsListCache = null;
+              this.projectStateService.notifyProjectListChanged();
+
               return this.findById(projectId);
             } catch (e) {
               console.error('Error al procesar la URL de Location:', e);
@@ -245,7 +253,7 @@ export class ProjectService {
 
   /**
    * Elimina un proyecto por su ID en el backend.
-   * Invalida la caché del proyecto eliminado.
+   * Invalida la caché del proyecto eliminado y las listas.
    * Ruta: DELETE /projects/v1/{id}
    */
   deleteById(id: number): Observable<void> {
@@ -253,6 +261,10 @@ export class ProjectService {
     return this.http.delete<void>(url).pipe(
       tap(() => {
         this.clearProjectCache(id);
+        // Clear list caches to force refresh in sidebar
+        this.projectsByCreatorCache.clear();
+        this.projectsByMemberCache.clear();
+        this.projectsListCache = null;
         this.projectStateService.notifyProjectListChanged();
       }),
       catchError(this.handleError),
