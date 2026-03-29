@@ -239,7 +239,7 @@
       <div
         *ngFor="let image of userImages"
         class="cursor-pointer p-2 border rounded-lg flex justify-center"
-        [ngClass]="{ 'border-primary': currentUser.image?.id === image.id }"
+        [ngClass]="{ 'border-primary': currentUser.image.id === image.id }"
         (click)="selectAvatar(image.id!)"
       >
         <img

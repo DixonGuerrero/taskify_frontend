@@ -36,7 +36,6 @@ import { TaskPriority } from '../../../../../../core/models';
     TextareaModule,
     TooltipModule,
     ListboxModule,
-    Tag,
     RouterLink,
   ],
   templateUrl: './calendar-page.component.html',
@@ -173,7 +172,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
         const nextDate = new Date(
           lastCurrentDate.getFullYear(),
           lastCurrentDate.getMonth(),
-          lastCurrentDate.getDate() + i
+          lastCurrentDate.getDate() + i,
         );
         days.push(nextDate);
       }
@@ -184,7 +183,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
       const nextDate = new Date(
         lastCurrentDate.getFullYear(),
         lastCurrentDate.getMonth(),
-        lastCurrentDate.getDate() + 1
+        lastCurrentDate.getDate() + 1,
       );
       days.push(nextDate);
     }
@@ -195,7 +194,7 @@ export class CalendarPageComponent implements OnInit, OnDestroy {
         const nextDate = new Date(
           lastCurrentDate.getFullYear(),
           lastCurrentDate.getMonth(),
-          lastCurrentDate.getDate() + i
+          lastCurrentDate.getDate() + i,
         );
         days.push(nextDate);
       }
