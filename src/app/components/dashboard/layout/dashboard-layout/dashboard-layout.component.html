@@ -235,62 +235,139 @@
 <p-popover #notificationsPopover [appendTo]="'body'">
   <ng-template pTemplate="content">
     <div
-      class="p-4 max-h-64 overflow-y-auto bg-white dark:bg-gray-900 rounded-lg shadow-lg"
+      class="w-80 max-h-96 overflow-hidden bg-white dark:bg-[#1A1616] rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800"
     >
-      <div class="notification-header mb-3">
+      <!-- Header -->
+      <div
+        class="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#FC3942] to-[#FF6C73] rounded-t-xl"
+      >
+        <div class="flex items-center gap-2">
+          <i class="pi pi-bell text-white text-lg"></i>
+          <span class="font-semibold text-white">Notificaciones</span>
+          <span
+            *ngIf="unreadNotificationsCount > 0"
+            class="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full"
+          >
+            {{ unreadNotificationsCount }}
+          </span>
+        </div>
         <button
           pButton
-          label="Marcar todas como leídas"
+          icon="pi pi-check-circle"
           (click)="markAllAsRead()"
-          class="p-button-secondary w-full"
+          class="p-button-rounded p-button-text p-button-sm"
+          [disabled]="unreadNotificationsCount === 0"
+          pTooltip="Marcar todas como leídas"
+          tooltipPosition="left"
         ></button>
       </div>
-      <ul class="space-y-2">
-        <li *ngFor="let notification of notifications" class="mb-2">
-          <div
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 border border-gray-200 dark:border-gray-700"
+
+      <!-- Notifications List -->
+      <div class="max-h-72 overflow-y-auto">
+        <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+          <li
+            *ngFor="let notification of notifications"
+            class="group hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             [ngClass]="{
-              'bg-gray-50 dark:bg-gray-700 border-[#FC3942] dark:border-[#FF6C73]':
-                !notification.is_read,
+              'bg-blue-50/50 dark:bg-blue-900/10': !notification.is_read,
             }"
           >
-            <div class="flex items-center justify-between">
-              <div>
-                <span
-                  [ngClass]="{ 'font-bold': !notification.is_read }"
-                  class="text-sm text-[#4B4B4B] dark:text-[#949494]"
+            <div class="flex items-start gap-3 p-4">
+              <!-- Icon based on read status -->
+              <div
+                class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                [ngClass]="{
+                  'bg-[#FC3942]/10 text-[#FC3942]': !notification.is_read,
+                  'bg-gray-100 dark:bg-gray-700 text-gray-400':
+                    notification.is_read,
+                }"
+              >
+                <i
+                  class="pi"
+                  [ngClass]="{
+                    'pi-envelope': !notification.is_read,
+                    'pi-envelope-open': notification.is_read,
+                  }"
+                ></i>
+              </div>
+
+              <!-- Content -->
+              <div class="flex-1 min-w-0">
+                <p
+                  class="text-sm leading-relaxed"
+                  [ngClass]="{
+                    'text-gray-900 dark:text-gray-100 font-medium':
+                      !notification.is_read,
+                    'text-gray-600 dark:text-gray-400': notification.is_read,
+                  }"
                 >
                   {{ notification.message }}
-                </span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <span class="text-xs text-gray-500 dark:text-gray-400">
+                </p>
+                <span
+                  class="text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1"
+                >
+                  <i class="pi pi-clock text-[10px]"></i>
                   {{ notification.created_at | date: "short" }}
                 </span>
-                <button
-                  pButton
-                  icon="pi pi-eye"
-                  (click)="markAsRead(notification.id)"
-                  class="p-button-rounded p-button-secondary p-button-text"
-                  [disabled]="notification.is_read"
-                ></button>
               </div>
+
+              <!-- Actions -->
+              <button
+                *ngIf="!notification.is_read"
+                pButton
+                icon="pi pi-check"
+                (click)="markAsRead(notification.id)"
+                class="p-button-rounded p-button-text p-button-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                pTooltip="Marcar como leída"
+                tooltipPosition="left"
+              ></button>
             </div>
-          </div>
-        </li>
-        <li
-          *ngIf="notifications.length === 0"
-          class="text-center text-sm text-gray-500 dark:text-gray-400 py-2"
-        >
-          No hay notificaciones.
-        </li>
-      </ul>
+          </li>
+
+          <!-- Empty State -->
+          <li
+            *ngIf="notifications.length === 0"
+            class="flex flex-col items-center justify-center py-12 px-4"
+          >
+            <div
+              class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3"
+            >
+              <i
+                class="pi pi-bell-slash text-2xl text-gray-400 dark:text-gray-500"
+              ></i>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+              No tienes notificaciones
+            </p>
+            <p class="text-gray-400 dark:text-gray-600 text-xs mt-1">
+              ¡Estás al día!
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Footer -->
+      <div
+        *ngIf="notifications.length > 0"
+        class="px-4 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 rounded-b-xl"
+      >
+        <span class="text-xs text-gray-500 dark:text-gray-500">
+          {{ notifications.length }} notificaci{{
+            notifications.length === 1 ? "ón" : "ones"
+          }}
+          en total
+        </span>
+      </div>
     </div>
   </ng-template>
   <ng-template pTemplate="target">
     <p-button
       icon="pi pi-bell"
-      [badge]="unreadNotificationsCount.toString()"
+      [badge]="
+        unreadNotificationsCount > 0
+          ? unreadNotificationsCount.toString()
+          : undefined
+      "
       (click)="toggleNotifications($event)"
       class="p-button-text p-button-rounded"
       [ngClass]="{ 'animate-bell': animateBell }"
