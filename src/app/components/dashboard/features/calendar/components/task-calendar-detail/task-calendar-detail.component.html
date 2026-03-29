@@ -1,40 +1,145 @@
-<div *ngIf="task" class="p-4 space-y-4 bg-white dark:bg-gray-800 rounded-lg">
-  <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100">{{ task.name }}</h3>
-
-  <p *ngIf="task.description" class="text-gray-600 dark:text-gray-300">{{ task.description }}</p>
-  <p *ngIf="!task.description" class="text-gray-500 dark:text-gray-400 italic">Sin descripción.</p>
-
-  <p-divider></p-divider>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-    <div>
-      <span class="font-medium text-gray-500 dark:text-gray-400 block mb-1">Fecha Límite:</span>
-      <span class="text-gray-700 dark:text-gray-200">{{ task.due_date | date:'EEEE, d \'de\' MMMM \'de\' y':'':'es-ES' }}</span>
+<div *ngIf="task" class="p-0">
+  <!-- Header con icono y título -->
+  <div
+    class="flex items-start gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-700"
+  >
+    <div
+      class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FC3942] to-[#FF6C73] flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-500/20"
+    >
+      <i class="pi pi-calendar text-white text-xl"></i>
     </div>
-    <div>
-      <span class="font-medium text-gray-500 dark:text-gray-400 block mb-1">Prioridad:</span>
-      <p-tag [value]="getPriorityText(task.priority)" [severity]="getPriorityClass(task.priority)"></p-tag>
+    <div class="min-w-0 flex-1">
+      <h3
+        class="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight mb-1"
+      >
+        {{ task.name }}
+      </h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        Detalles de la tarea
+      </p>
     </div>
-    <div *ngIf="task.project">
-      <span class="font-medium text-gray-500 dark:text-gray-400 block mb-1">Proyecto:</span>
-      <span class="text-gray-700 dark:text-gray-200">{{ task.project.name }}</span>
-    </div>
-     
   </div>
 
-  <p-divider></p-divider>
+  <!-- Descripción -->
+  <div class="mb-6">
+    <p
+      *ngIf="task.description"
+      class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed bg-gray-50 dark:bg-[#1A1616] rounded-xl p-4 border border-gray-100 dark:border-gray-800"
+    >
+      <span
+        class="flex items-center gap-2 mb-2 text-gray-500 dark:text-gray-400"
+      >
+        <i class="pi pi-align-left text-sm"></i>
+        <span class="text-xs font-medium uppercase tracking-wider"
+          >Descripción</span
+        >
+      </span>
+      {{ task.description }}
+    </p>
+    <p
+      *ngIf="!task.description"
+      class="text-gray-400 dark:text-gray-500 text-sm italic bg-gray-50 dark:bg-[#1A1616] rounded-xl p-4 border border-gray-100 dark:border-gray-800"
+    >
+      <span
+        class="flex items-center gap-2 mb-2 text-gray-500 dark:text-gray-400"
+      >
+        <i class="pi pi-align-left text-sm"></i>
+        <span class="text-xs font-medium uppercase tracking-wider"
+          >Descripción</span
+        >
+      </span>
+      Sin descripción.
+    </p>
+  </div>
 
-  <div class="flex justify-end space-x-2 mt-4">
-     <button pButton type="button" label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="dialogRef.close()"></button>
-    <button pButton
-            *ngIf="task.project?.id"
-            label="Ir al Proyecto"
-            icon="pi pi-arrow-right"
-            class="p-button-primary"
-            (click)="goToProject()">
-    </button>
+  <!-- Info Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+    <!-- Fecha límite -->
+    <div
+      class="bg-gray-50 dark:bg-[#1A1616] rounded-xl p-4 border border-gray-100 dark:border-gray-800"
+    >
+      <div
+        class="flex items-center gap-2 mb-2 text-gray-500 dark:text-gray-400"
+      >
+        <i class="pi pi-clock text-sm"></i>
+        <span class="text-xs font-medium uppercase tracking-wider"
+          >Fecha Límite</span
+        >
+      </div>
+      <span class="text-gray-800 dark:text-gray-200 font-medium text-sm">
+        {{ task.due_date | date: "EEEE, d MMMM y" : "" : "es-ES" }}
+      </span>
+    </div>
+
+    <!-- Prioridad -->
+    <div
+      class="bg-gray-50 dark:bg-[#1A1616] rounded-xl p-4 border border-gray-100 dark:border-gray-800"
+    >
+      <div
+        class="flex items-center gap-2 mb-2 text-gray-500 dark:text-gray-400"
+      >
+        <i class="pi pi-flag text-sm"></i>
+        <span class="text-xs font-medium uppercase tracking-wider"
+          >Prioridad</span
+        >
+      </div>
+      <p-tag
+        [value]="getPriorityText(task.priority)"
+        [severity]="getPriorityClass(task.priority)"
+        styleClass="text-xs"
+      >
+      </p-tag>
+    </div>
+
+    <!-- Proyecto -->
+    <div
+      *ngIf="task.project"
+      class="bg-gray-50 dark:bg-[#1A1616] rounded-xl p-4 sm:col-span-2 border border-gray-100 dark:border-gray-800"
+    >
+      <div
+        class="flex items-center gap-2 mb-2 text-gray-500 dark:text-gray-400"
+      >
+        <i class="pi pi-folder text-sm"></i>
+        <span class="text-xs font-medium uppercase tracking-wider"
+          >Proyecto</span
+        >
+      </div>
+      <span class="text-gray-800 dark:text-gray-200 font-medium text-sm">
+        {{ task.project.name }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="flex justify-end gap-3 pt-2">
+    <button
+      pButton
+      type="button"
+      label="Cerrar"
+      icon="pi pi-times"
+      class="p-button-text p-button-sm"
+      (click)="dialogRef.close()"
+    ></button>
+    <button
+      pButton
+      *ngIf="task.project?.id"
+      type="button"
+      label="Ir al Proyecto"
+      icon="pi pi-external-link"
+      class="p-button-primary p-button-sm"
+      (click)="goToProject()"
+    ></button>
   </div>
 </div>
-<div *ngIf="!task" class="p-4 text-center text-gray-500 dark:text-gray-400">
-  No se pudo cargar la información de la tarea.
+
+<!-- Estado vacío -->
+<div *ngIf="!task" class="p-8 text-center">
+  <div
+    class="w-16 h-16 rounded-full bg-gray-100 dark:bg-[#1A1616] flex items-center justify-center mx-auto mb-4 border border-gray-200 dark:border-gray-800"
+  >
+    <i class="pi pi-exclamation-circle text-2xl text-gray-400"></i>
+  </div>
+  <p class="text-gray-500 dark:text-gray-400">
+    No se pudo cargar la información de la tarea.
+  </p>
 </div>
