@@ -235,11 +235,11 @@
     styleClass="p-dialog-custom p-dialog-zoom"
     maskStyleClass="bg-black/60"
   >
-    <div class="grid grid-cols-2 gap-4">
+    <div *ngIf="currentUser" class="grid grid-cols-2 gap-4">
       <div
         *ngFor="let image of userImages"
         class="cursor-pointer p-2 border rounded-lg flex justify-center"
-        [ngClass]="{ 'border-primary': currentUser.image.id === image.id }"
+        [ngClass]="{ 'border-primary': currentUser.image?.id === image.id }"
         (click)="selectAvatar(image.id!)"
       >
         <img
