@@ -1,122 +1,161 @@
 <div class="p-4 md:p-6">
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Configuración</h1>
-      <p class="text-gray-600 dark:text-gray-300">Personaliza tu experiencia en Taskify</p>
-    </div>
-  
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-      <!-- Menú lateral -->
-      <div class="lg:col-span-1">
-        <div class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
-          <ul class="divide-y divide-gray-200 dark:divide-gray-800">
-            <li>
-              <button 
-                (click)="activeSection = 'appearance'" 
-                class="w-full px-4 py-3 flex items-center text-left"
-                [ngClass]="{'bg-primary/5 border-l-4 border-primary': activeSection === 'appearance'}"
-              >
-                <i class="pi pi-palette mr-3 text-primary"></i>
-                <span class="font-medium">Apariencia</span>
-              </button>
-            </li>
-            <li>
-              <button 
-                (click)="activeSection = 'notifications'" 
-                class="w-full px-4 py-3 flex items-center text-left"
-                [ngClass]="{'bg-primary/5 border-l-4 border-primary': activeSection === 'notifications'}"
-              >
-                <i class="pi pi-bell mr-3 text-primary"></i>
-                <span class="font-medium">Notificaciones</span>
-              </button>
-            </li>
-            <li>
-              <button 
-                (click)="activeSection = 'language'" 
-                class="w-full px-4 py-3 flex items-center text-left"
-                [ngClass]="{'bg-primary/5 border-l-4 border-primary': activeSection === 'language'}"
-              >
-                <i class="pi pi-globe mr-3 text-primary"></i>
-                <span class="font-medium">Idioma</span>
-              </button>
-            </li>
-            <li>
-              <button 
-                (click)="activeSection = 'accessibility'" 
-                class="w-full px-4 py-3 flex items-center text-left"
-                [ngClass]="{'bg-primary/5 border-l-4 border-primary': activeSection === 'accessibility'}"
-              >
-                <i class="pi pi-eye mr-3 text-primary"></i>
-                <span class="font-medium">Accesibilidad</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+      Configuración
+    </h1>
+    <p class="text-gray-600 dark:text-gray-300">
+      Personaliza tu experiencia en Taskify
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <!-- Menú lateral -->
+    <div class="lg:col-span-1">
+      <div
+        class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden"
+      >
+        <ul class="divide-y divide-gray-200 dark:divide-gray-800">
+          <li>
+            <button
+              (click)="activeSection = 'appearance'"
+              class="w-full px-4 py-3 flex items-center text-left"
+              [ngClass]="{
+                'bg-primary/5 border-l-4 border-primary':
+                  activeSection === 'appearance',
+              }"
+            >
+              <i class="pi pi-palette mr-3 text-primary"></i>
+              <span class="font-medium">Apariencia</span>
+            </button>
+          </li>
+          <!--
+          <li>
+            <button
+              (click)="activeSection = 'notifications'"
+              class="w-full px-4 py-3 flex items-center text-left"
+              [ngClass]="{
+                'bg-primary/5 border-l-4 border-primary':
+                  activeSection === 'notifications',
+              }"
+            >
+              <i class="pi pi-bell mr-3 text-primary"></i>
+              <span class="font-medium">Notificaciones</span>
+            </button>
+          </li>
+          <li>
+            <button
+              (click)="activeSection = 'language'"
+              class="w-full px-4 py-3 flex items-center text-left"
+              [ngClass]="{
+                'bg-primary/5 border-l-4 border-primary':
+                  activeSection === 'language',
+              }"
+            >
+              <i class="pi pi-globe mr-3 text-primary"></i>
+              <span class="font-medium">Idioma</span>
+            </button>
+          </li>
+          <li>
+            <button
+              (click)="activeSection = 'accessibility'"
+              class="w-full px-4 py-3 flex items-center text-left"
+              [ngClass]="{
+                'bg-primary/5 border-l-4 border-primary':
+                  activeSection === 'accessibility',
+              }"
+            >
+              <i class="pi pi-eye mr-3 text-primary"></i>
+              <span class="font-medium">Accesibilidad</span>
+            </button>
+          </li>
+          -->
+        </ul>
       </div>
-  
-      <!-- Contenido principal -->
-      <div class="lg:col-span-3">
-        <div class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
-          
-          <!-- Sección de Apariencia -->
-          <div *ngIf="activeSection === 'appearance'">
-            <h2 class="text-xl font-bold mb-4">Apariencia</h2>
-            
-            <!-- Tema -->
-            <!-- Dentro de la sección de Apariencia -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold mb-3">Tema</h3>
-              <div class="flex flex-wrap gap-4">
-                <div 
-                  class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
-                  [ngClass]="{'border-primary': settings.theme === 'light'}"
-                  (click)="updateTheme('light')"
-                >
-                  <div class="w-20 h-12 bg-white border border-gray-200 rounded-md mb-2"></div>
-                  <span>Claro</span>
-                </div>
-                
-                <div 
-                  class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
-                  [ngClass]="{'border-primary': settings.theme === 'dark'}"
-                  (click)="updateTheme('dark')"
-                >
-                  <div class="w-20 h-12 bg-gray-900 border border-gray-700 rounded-md mb-2"></div>
-                  <span>Oscuro</span>
-                </div>
-                
-                <div 
-                  class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
-                  [ngClass]="{'border-primary': settings.theme === 'system'}"
-                  (click)="updateTheme('system')"
-                >
-                  <div class="w-20 h-12 bg-gradient-to-r from-white to-gray-900 border border-gray-300 rounded-md mb-2"></div>
-                  <span>Sistema</span>
-                </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="lg:col-span-3">
+      <div
+        class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6"
+      >
+        <!-- Sección de Apariencia -->
+        <div *ngIf="activeSection === 'appearance'">
+          <h2 class="text-xl font-bold mb-4">Apariencia</h2>
+
+          <!-- Tema -->
+          <!-- Dentro de la sección de Apariencia -->
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Tema</h3>
+            <div class="flex flex-wrap gap-4">
+              <div
+                class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
+                [ngClass]="{ 'border-primary': settings.theme === 'light' }"
+                (click)="updateTheme('light')"
+              >
+                <div
+                  class="w-20 h-12 bg-white border border-gray-200 rounded-md mb-2"
+                ></div>
+                <span>Claro</span>
               </div>
-            </div>
-            
-            <!-- Color primario -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold mb-3">Color primario</h3>
-              <div class="flex flex-wrap gap-3">
-                <button 
-                  *ngFor="let color of primaryColors" 
-                  class="w-8 h-8 rounded-full border-2"
-                  [style.background-color]="color.value"
-                  [ngClass]="{'border-black dark:border-white': settings.primaryColor === color.id}"
-                  (click)="updatePrimaryColor(color.id)"
-                ></button>
+
+              <div
+                class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
+                [ngClass]="{ 'border-primary': settings.theme === 'dark' }"
+                (click)="updateTheme('dark')"
+              >
+                <div
+                  class="w-20 h-12 bg-gray-900 border border-gray-700 rounded-md mb-2"
+                ></div>
+                <span>Oscuro</span>
               </div>
-            </div>
-            
-            <!-- Densidad -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold mb-3">Densidad de la interfaz</h3>
-              <p-selectButton [options]="densityOptions" [(ngModel)]="settings.density" optionLabel="label" optionValue="value"></p-selectButton>
+
+              
+              <div
+                class="theme-option cursor-pointer p-4 border rounded-lg flex flex-col items-center"
+                [ngClass]="{ 'border-primary': settings.theme === 'system' }"
+                (click)="updateTheme('system')"
+              >
+                <div
+                  class="w-20 h-12 bg-gradient-to-r from-white to-gray-900 border border-gray-300 rounded-md mb-2"
+                ></div>
+                <span>Sistema</span>
+              </div>
+              
             </div>
           </div>
-          
-          <!-- Sección de Notificaciones -->
+
+          <!--
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Color primario</h3>
+            <div class="flex flex-wrap gap-3">
+              <button
+                *ngFor="let color of primaryColors"
+                class="w-8 h-8 rounded-full border-2"
+                [style.background-color]="color.value"
+                [ngClass]="{
+                  'border-black dark:border-white':
+                    settings.primaryColor === color.id,
+                }"
+                (click)="updatePrimaryColor(color.id)"
+              ></button>
+            </div>
+          </div>
+          -->
+
+          <!--
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3">Densidad de la interfaz</h3>
+            <p-selectButton
+              [options]="densityOptions"
+              [(ngModel)]="settings.density"
+              optionLabel="label"
+              optionValue="value"
+            ></p-selectButton>
+          </div>
+          -->
+        </div>
+
+        <!--
           <div *ngIf="activeSection === 'notifications'">
             <h2 class="text-xl font-bold mb-4">Notificaciones</h2>
             
@@ -154,8 +193,9 @@
               </div>
             </div>
           </div>
-          
-          <!-- Sección de Idioma -->
+          -->
+
+        <!--
           <div *ngIf="activeSection === 'language'">
             <h2 class="text-xl font-bold mb-4">Idioma</h2>
             
@@ -179,8 +219,9 @@
               </div>
             </div>
           </div>
-          
-          <!-- Sección de Accesibilidad -->
+          -->
+
+        <!--
           <div *ngIf="activeSection === 'accessibility'">
             <h2 class="text-xl font-bold mb-4">Accesibilidad</h2>
             
@@ -212,8 +253,9 @@
               </div>
             </div>
           </div>
-          
-          <!-- Botones de acción -->
+          -->
+
+        <!--
           <div class="mt-8 flex flex-col-reverse sm:flex-row justify-end gap-3 sm:space-x-3">
             <p-button 
               label="Restablecer valores predeterminados" 
@@ -226,7 +268,8 @@
               (click)="saveSettings()"
             ></p-button>
           </div>
-        </div>
+          -->
       </div>
     </div>
   </div>
+</div>
