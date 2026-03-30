@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   checkingAuth = true;
   googleOAuthUrl = `${environment.API_URL.replace('/api', '')}/oauth2/authorization/google`;
+  githubOAuthUrl = `${environment.API_URL.replace('/api', '')}/oauth2/authorization/github`;
 
   constructor(
     private fb: FormBuilder,

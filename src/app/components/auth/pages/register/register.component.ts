@@ -16,6 +16,7 @@ import { Image } from '../../../../core/models/image/image.model';
 import { UserRequest } from '../../../../core/models/user';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { ImageService } from '../../../../core/services/image/image.service';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-register',
@@ -35,6 +36,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   showPassword = false;
   loading = false;
   userImages: Image[] = [];
+  googleOAuthUrl = `${environment.API_URL.replace('/api', '')}/oauth2/authorization/google`;
+  githubOAuthUrl = `${environment.API_URL.replace('/api', '')}/oauth2/authorization/github`;
   private subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -42,7 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private imageService: ImageService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.registerForm = this.fb.group({
       first_name: ['', [Validators.required, Validators.minLength(3)]],
