@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment.development';
 
 export const authInterceptor = (
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   const isApiUrl = req.url.startsWith(environment.API_URL);
 

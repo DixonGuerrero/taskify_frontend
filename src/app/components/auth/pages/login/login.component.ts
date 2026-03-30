@@ -15,6 +15,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { AuthLoginRequest } from '../../../../core/models/auth';
 import { ErrorResponse } from '../../../../core/models/error/error.model';
+import { environment } from '../../../../../environments/environment.development';
 
 @Component({
   selector: 'app-login',
@@ -38,12 +39,13 @@ export class LoginComponent implements OnInit {
   showPassword = false;
   loading = false;
   checkingAuth = true;
+  googleOAuthUrl = `${environment.API_URL.replace('/api', '')}/oauth2/authorization/google`;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -96,7 +98,10 @@ export class LoginComponent implements OnInit {
         console.log(err);
         this.loading = false;
         this.submitted = false;
-        const detail = err.details && err.details.length > 0 ? err.details[0] : 'Error desconocido.';
+        const detail =
+          err.details && err.details.length > 0
+            ? err.details[0]
+            : 'Error desconocido.';
         this.messageService.add({
           severity: 'error',
           summary: err.message || 'Error de autenticación',
