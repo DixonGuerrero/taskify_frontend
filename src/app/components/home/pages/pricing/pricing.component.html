@@ -155,12 +155,12 @@
               </ul>
             </div>
             <div class="p-6">
-              <a
-                routerLink="/auth/login"
-                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors border border-gray-300 dark:border-gray-600"
+              <button
+                (click)="showFreeToast()"
+                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors border border-gray-300 dark:border-gray-600 cursor-pointer"
               >
                 Comienza Gratis
-              </a>
+              </button>
             </div>
           </div>
 
@@ -243,12 +243,12 @@
               </ul>
             </div>
             <div class="p-6 bg-primary">
-              <a
-                routerLink="/auth/login"
-                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
+              <button
+                (click)="showPaymentToast()"
+                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer"
               >
-                Suscribirse
-              </a>
+                Contactar
+              </button>
             </div>
           </div>
 
@@ -291,84 +291,79 @@
                   <i class="pi pi-check text-[#FC3942] mr-2"></i>Soporte 24/7
                 </li>
               </ul>
-                      personal
-                   
-                </div>
-                <div class="p-6">
-                  <a
-                    routerLink="/auth/login"
-                    class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
-                  >
-                    Comienza Gratis
-                  </a>
-                </div>
-              </div>
-
-             
+            </div>
+            <div class="p-6">
+              <button
+                (click)="showPaymentToast()"
+                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors border border-gray-300 dark:border-gray-600 cursor-pointer"
+              >
+                Contactar
+              </button>
             </div>
           </div>
-        </section>
-
-        <!-- FAQ -->
-        <section class="faq py-8 md:py-16 px-4 sm:px-6 lg:px-8">
-          <div class="container mx-auto max-w-4xl">
-            <h2
-              class="text-3xl md:text-4xl font-bold text-primary text-center mb-12"
-            >
-              Preguntas Frecuentes
-            </h2>
-            <div class="space-y-8 max-w-2xl mx-auto">
-              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-                <h3
-                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-                >
-                  ¿Qué incluye el plan gratuito?
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400">
-                  El plan gratuito te permite crear hasta 3 proyectos con 5
-                  miembros cada uno, con todas las funciones básicas de tareas y
-                  calendario.
-                </p>
-              </div>
-              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-                <h3
-                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-                >
-                  ¿Puedo cambiar de plan más tarde?
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400">
-                  Sí, puedes actualizar o downgradear tu plan en cualquier
-                  momento desde el dashboard.
-                </p>
-              </div>
-              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-                <h3
-                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-                >
-                  ¿Cuándo estarán disponibles el chat y las notificaciones?
-                </h3>
-                <p class="text-gray-600 dark:text-gray-400">
-                  Estamos trabajando en estas funciones y estarán disponibles en
-                  futuras actualizaciones para los planes Pro y Enterprise.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- CTA Final -->
-        <section
-          class="cta py-16 bg-gradient-to-r from-[#FC3942] to-[#FF6C73] text-white text-center px-4 rounded-lg mx-4 mb-8"
-        >
-          <h2 class="text-3xl font-bold mb-6">Empieza Hoy con Taskify</h2>
-          <a
-            routerLink="/auth/login"
-            class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
-          >
-            Comienza Gratis
-          </a>
-        </section>
+        </div>
       </div>
-    </main>
+    </section>
 
-    <app-footer />
+    <!-- FAQ -->
+    <section class="faq py-8 md:py-16 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto max-w-4xl">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-primary text-center mb-12"
+        >
+          Preguntas Frecuentes
+        </h2>
+        <div class="space-y-8 max-w-2xl mx-auto">
+          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              ¿Qué incluye el plan gratuito?
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              El plan gratuito te permite crear hasta 3 proyectos con 5 miembros
+              cada uno, con todas las funciones básicas de tareas y calendario.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              ¿Puedo cambiar de plan más tarde?
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              Sí, puedes actualizar o downgradear tu plan en cualquier momento
+              desde el dashboard.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              ¿Cuándo estarán disponibles el chat y las notificaciones?
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              Estamos trabajando en estas funciones y estarán disponibles en
+              futuras actualizaciones para los planes Pro y Enterprise.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section
+      class="cta py-16 bg-gradient-to-r from-[#FC3942] to-[#FF6C73] text-white text-center px-4 rounded-lg mx-4 mb-8"
+    >
+      <h2 class="text-3xl font-bold mb-6">Empieza Hoy con Taskify</h2>
+      <button
+        (click)="showFreeToast()"
+        class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer"
+      >
+        Comienza Gratis
+      </button>
+    </section>
+  </div>
+</main>
+
+<app-footer />
