@@ -13,6 +13,7 @@ import { ProjectCreateFormComponent } from '../../components/project-create-form
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../../../../../core/services/project/project.service';
+import { ProjectStateService } from '../../../../../../core/services/project/project-state.service';
 import { AuthService } from '../../../../../../core/services/auth/auth.service';
 import { Project } from '../../../../../../core/models/project/project.model';
 import { ProjectStatus } from '../../../../../../core/models/project/project-status.model';
@@ -45,7 +46,7 @@ import { User } from '../../../../../../core/models';
         style({ opacity: 0, transform: 'translateY(20px)' }),
         animate(
           '0.5s ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' })
+          style({ opacity: 1, transform: 'translateY(0)' }),
         ),
       ]),
     ]),
@@ -73,7 +74,8 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private messageService: MessageService,
     private projectService: ProjectService,
-    private authService: AuthService
+    private projectStateService: ProjectStateService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +91,7 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
           this.currentUserId = undefined;
           this.projects = [];
         }
-      }
+      },
     );
 
     this.subscriptions.add(authSub);
@@ -107,10 +109,10 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
 
     // Get projects where user is creator or member
     const creatorProjects$ = this.projectService.findByCreatorId(
-      this.currentUserId
+      this.currentUserId,
     );
     const memberProjects$ = this.projectService.findByMemberId(
-      this.currentUserId
+      this.currentUserId,
     );
 
     const projectsSub = forkJoin([creatorProjects$, memberProjects$]).subscribe(
@@ -137,7 +139,7 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
           });
           this.loading = false;
         },
-      }
+      },
     );
 
     this.subscriptions.add(projectsSub);
@@ -215,6 +217,11 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
                     detail: `Te has unido exitosamente a "${project.name}"`,
                   });
 
+                  // Limpiar caché de proyectos por miembro y notificar cambio
+                  this.projectService.clearProjectsByMemberCache(
+                    this.currentUserId!,
+                  );
+                  this.projectStateService.notifyProjectListChanged();
                   this.loadUserProjects();
                 },
                 error: (error) => {
@@ -223,7 +230,7 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
               });
           } else {
             this.handleJoinError(
-              'Código de invitación inválido o proyecto no encontrado.'
+              'Código de invitación inválido o proyecto no encontrado.',
             );
           }
         },

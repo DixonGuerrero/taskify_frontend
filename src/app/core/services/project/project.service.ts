@@ -56,6 +56,20 @@ export class ProjectService {
   }
 
   /**
+   * Limpia la caché de proyectos por miembro
+   */
+  clearProjectsByMemberCache(memberId: number): void {
+    this.projectsByMemberCache.delete(memberId);
+  }
+
+  /**
+   * Limpia la caché de proyectos por creador
+   */
+  clearProjectsByCreatorCache(creatorId: number): void {
+    this.projectsByCreatorCache.delete(creatorId);
+  }
+
+  /**
    * Obtiene todos los proyectos desde el backend.
    * Usa caché para evitar consultas repetidas.
    */
