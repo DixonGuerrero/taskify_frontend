@@ -155,13 +155,13 @@
 
         <!-- Botón CTA debajo de las tarjetas -->
         <div class="flex justify-center mt-16">
-          <p-button
-            routerLink=""
-            label="Explora Todas las Funciones"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            styleClass="py-3 px-8 text-lg font-medium"
-          />
+          <button
+            (click)="scrollToSection('caracteristicas')"
+            class="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary-600 font-bold py-3 px-8 rounded-lg transition-colors text-lg cursor-pointer"
+          >
+            <span>Explora Todas las Funciones</span>
+            <i class="pi pi-arrow-right"></i>
+          </button>
         </div>
       </div>
     </section>

@@ -13,10 +13,21 @@ import { HeaderComponent } from '../../../../shared/components/header/header.com
 
 @Component({
   selector: 'app-landing',
-  imports: [ButtonModule, AnimateOnScroll, FooterComponent, RouterLink, HeaderComponent],
+  imports: [
+    ButtonModule,
+    AnimateOnScroll,
+    FooterComponent,
+    RouterLink,
+    HeaderComponent,
+  ],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrl: './landing.component.css',
 })
 export class LandingComponent {
-  
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }
