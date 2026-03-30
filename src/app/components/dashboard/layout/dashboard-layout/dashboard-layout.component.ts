@@ -26,6 +26,7 @@ import { Project } from '../../../../core/models/project/project.model';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { ProjectStateService } from '../../../../core/services/project/project-state.service';
 import { ProjectService } from '../../../../core/services/project/project.service';
+import { TaskService } from '../../../../core/services/task/task.service';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { Notification } from '../../../../core/models/notification/notification.model';
@@ -81,9 +82,10 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private authService: AuthService,
     private projectService: ProjectService,
+    private taskService: TaskService,
     private router: Router,
     private projectStateService: ProjectStateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.initializeMenu();
   }
@@ -111,7 +113,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
           this.subscribeToNotifications();
           this.loadInitialNotifications();
         }
-      })
+      }),
     );
   }
 
@@ -123,11 +125,22 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
           this.notifications.unshift(notification); // Añadir al inicio
           if (!notification.is_read) this.unreadCount++;
           this.triggerBellAnimation(); // Activar animación
+
+          // Si la notificación es sobre una tarea, limpiar la caché de tareas
+          if (
+            notification.message.toLowerCase().includes('tarea') ||
+            notification.message.toLowerCase().includes('task')
+          ) {
+            console.log(
+              '[Notification] Detectada notificación de tarea, limpiando caché...',
+            );
+            this.taskService.clearCache();
+          }
         },
         (error) => {
           console.error('Error al recibir notificación:', error);
-        }
-      )
+        },
+      ),
     );
   }
 
@@ -147,7 +160,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
               summary: 'Error',
               detail: 'No se pudieron cargar las notificaciones.',
             });
-          }
+          },
         );
     }
   }
@@ -156,7 +169,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     this.notificationService.markAsRead(notificationId).subscribe(
       () => {
         const notification = this.notifications.find(
-          (n) => n.id === notificationId
+          (n) => n.id === notificationId,
         );
         if (notification && !notification.is_read) {
           notification.is_read = true;
@@ -170,7 +183,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
           summary: 'Error',
           detail: 'No se pudo marcar la notificación como leída.',
         });
-      }
+      },
     );
   }
 
@@ -189,7 +202,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
             detail:
               'No se pudieron marcar todas las notificaciones como leídas.',
           });
-        }
+        },
       );
     }
   }
@@ -279,7 +292,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
           console.error('Error loading projects:', error);
           this.loading = false;
         },
-      }
+      },
     );
 
     this.suscriptions.add(projectsSub);
