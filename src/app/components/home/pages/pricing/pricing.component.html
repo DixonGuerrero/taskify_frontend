@@ -1,12 +1,92 @@
 <main
   class="w-screen flex flex-col min-h-screen items-center bg-[#F7F7F7] dark:bg-[#121212]"
 >
+  <p-toast position="top-center"></p-toast>
   <div class="w-full max-w-[1240px] flex flex-col flex-grow">
     <app-header></app-header>
 
+    <!-- Banner de Demostración -->
+    <div class="mt-20 px-4 sm:px-6 lg:px-8">
+      <div
+        class="relative bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl p-1 shadow-2xl"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl blur opacity-50"
+        ></div>
+        <div
+          class="relative bg-white dark:bg-[#1a1a1a] rounded-xl p-4 sm:p-6 md:p-8"
+        >
+          <div
+            class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-center md:text-left"
+          >
+            <!-- Icono animado -->
+            <div class="relative flex-shrink-0">
+              <div
+                class="absolute inset-0 bg-amber-500 rounded-full blur-lg opacity-40 animate-ping"
+              ></div>
+              <div
+                class="relative bg-gradient-to-br from-amber-400 to-orange-500 p-3 sm:p-4 rounded-full shadow-lg"
+              >
+                <i
+                  class="pi pi-exclamation-triangle text-white text-2xl sm:text-4xl"
+                ></i>
+              </div>
+            </div>
+
+            <!-- Contenido -->
+            <div class="max-w-2xl">
+              <div
+                class="flex items-center justify-center md:justify-start gap-2 mb-2"
+              >
+                <span
+                  class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-purple-200 dark:border-purple-700"
+                >
+                  Hackathon CubePath
+                </span>
+                <span
+                  class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-red-200 dark:border-red-700 animate-pulse"
+                >
+                  Demo
+                </span>
+              </div>
+              <h3
+                class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent mb-3"
+              >
+                ⚠️ Proyecto de Prueba - No Oficial
+              </h3>
+              <p
+                class="text-gray-600 dark:text-gray-400 text-base md:text-lg leading-relaxed"
+              >
+                Este es un
+                <strong class="text-purple-600 dark:text-purple-400"
+                  >proyecto desarrollado para el Hackathon de CubePath</strong
+                >. Los pagos están
+                <strong class="text-red-600 dark:text-red-400"
+                  >desactivados</strong
+                >
+                y nunca se procesarán transacciones reales. Taskify es
+                <strong class="text-green-600 dark:text-green-400"
+                  >100% GRATUITO</strong
+                >
+                - esta sección es únicamente demostrativa.
+              </p>
+            </div>
+          </div>
+
+          <!-- Patrón decorativo -->
+          <div
+            class="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-bl from-amber-200/20 to-transparent rounded-full -mr-8 -mt-8 sm:-mr-16 sm:-mt-16 pointer-events-none"
+          ></div>
+          <div
+            class="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-tr from-orange-200/20 to-transparent rounded-full -ml-8 -mb-8 sm:-ml-12 sm:-mb-12 pointer-events-none"
+          ></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Imagen CTA -->
     <div
-      class="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] mb-6  mt-16"
+      class="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] mb-6 mt-6"
     >
       <!-- Imagen modo claro -->
       <img
@@ -23,15 +103,19 @@
     </div>
 
     <!-- Planes -->
-    <section class="py-16">
-      <h2 class="text-3xl md:text-4xl font-bold text-primary text-center mb-12">Planes</h2>
+    <section class="py-8 md:py-16 px-4 sm:px-6 lg:px-8">
+      <h2
+        class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary text-center mb-8 md:mb-12"
+      >
+        Planes
+      </h2>
 
-      <div class="container mx-auto">
+      <div class="container mx-auto max-w-7xl">
         <!-- Planes Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           <!-- Plan Gratuito -->
           <div
-            class="shadow-lg rounded-[15px] transition-all duration-300 hover:scale-105 bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-600"
+            class="shadow-lg rounded-[15px] transition-all duration-300 hover:scale-[1.02] bg-white dark:bg-[#1a1a1a] border border-gray-300 dark:border-gray-600"
           >
             <div
               class="p-6 rounded-t-xl bg-gradient-to-b from-[#FCF9F9] to-[#EAEAEA] dark:from-[#212121] dark:to-[#1a1a1a]"
@@ -71,17 +155,24 @@
               </ul>
             </div>
             <div class="p-6">
-              <p-button
-                label="Comienza Gratis"
-                styleClass="py-1 px-4 text-lg font-medium"
-              />
+              <a
+                routerLink="/auth/login"
+                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors border border-gray-300 dark:border-gray-600"
+              >
+                Comienza Gratis
+              </a>
             </div>
           </div>
 
           <!-- Plan Pro (Popular) -->
           <div
-            class="shadow-xl rounded-[15px] transition-all duration-300 scale-105 relative overflow-hidden border border-gray-300 dark:border-gray-600 dark:bg-[#212121]"
+            class="shadow-xl rounded-[15px] transition-all duration-300 md:hover:scale-[1.02] relative overflow-hidden border-2 border-primary dark:border-primary/50 dark:bg-[#212121] md:-mt-4 md:mb-4"
           >
+            <div
+              class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg"
+            >
+              POPULAR
+            </div>
             <div
               class="p-6 rounded-t-xl bg-white dark:bg-[#212121] backdrop-blur-sm"
             >
@@ -94,50 +185,76 @@
                 Ideal para equipos pequeños
               </p>
             </div>
-            <div class="p-6 border-t border-gray-300 dark:border-gray-600 bg-primary">
-              <p
-                class="text-3xl font-bold text-white mb-4"
-              >
+            <div
+              class="p-6 border-t border-gray-300 dark:border-gray-600 bg-primary"
+            >
+              <p class="text-3xl font-bold text-white mb-4">
                 $9 <span class="text-lg">/ mes</span>
               </p>
               <ul class="text-left text-gray-600 dark:text-gray-400 space-y-2">
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>Proyectos
-                  ilimitados
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >Proyectos ilimitados
                 </li>
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>15 miembros por
-                  proyecto
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >15 miembros por proyecto
                 </li>
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>Tareas
-                  avanzadas
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >Tareas avanzadas
                 </li>
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>Drag-and-drop
-                  completo
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >Drag-and-drop completo
                 </li>
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>Calendario con
-                  filtros
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >Calendario con filtros
                 </li>
-                <li class="flex items-center text-surface-50 dark:text-white font-bold">
-                  <i class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"></i>Soporte
-                  prioritario
+                <li
+                  class="flex items-center text-surface-50 dark:text-white font-bold"
+                >
+                  <i
+                    class="pi pi-check text-surface-50 dark:text-surface-800 font-extrabold mr-2"
+                  ></i
+                  >Soporte prioritario
                 </li>
               </ul>
             </div>
             <div class="p-6 bg-primary">
-              <p-button
-                label="Suscribirse"
-                styleClass="py-1 px-4 text-lg font-medium bg-white text-primary"
-              />
+              <a
+                routerLink="/auth/login"
+                class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
+              >
+                Suscribirse
+              </a>
             </div>
           </div>
 
           <!-- Plan Enterprise -->
           <div
-            class="shadow-lg rounded-[15px] transition-transform hover:scale-105 bg-white dark:bg-[#212121]"
+            class="shadow-lg rounded-[15px] transition-all duration-300 hover:scale-[1.02] bg-white dark:bg-[#212121]"
           >
             <div class="p-6 rounded-t-lg dark:bg-[#212121]">
               <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">
@@ -174,77 +291,84 @@
                   <i class="pi pi-check text-[#FC3942] mr-2"></i>Soporte 24/7
                 </li>
               </ul>
-            </div>
-            <div class="p-6">
-              <p-button
-                label="Contactar"
-                styleClass="py-1 px-4 text-lg font-medium"
-              />
+                      personal
+                   
+                </div>
+                <div class="p-6">
+                  <a
+                    routerLink="/auth/login"
+                    class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
+                  >
+                    Comienza Gratis
+                  </a>
+                </div>
+              </div>
+
+             
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <!-- FAQ -->
-    <section class="faq py-16">
-      <div class="container mx-auto px-4">
-        <h2
-        class="text-3xl md:text-4xl font-bold text-primary text-center mb-12"
+        <!-- FAQ -->
+        <section class="faq py-8 md:py-16 px-4 sm:px-6 lg:px-8">
+          <div class="container mx-auto max-w-4xl">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-primary text-center mb-12"
+            >
+              Preguntas Frecuentes
+            </h2>
+            <div class="space-y-8 max-w-2xl mx-auto">
+              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+                <h3
+                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+                >
+                  ¿Qué incluye el plan gratuito?
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  El plan gratuito te permite crear hasta 3 proyectos con 5
+                  miembros cada uno, con todas las funciones básicas de tareas y
+                  calendario.
+                </p>
+              </div>
+              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+                <h3
+                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+                >
+                  ¿Puedo cambiar de plan más tarde?
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Sí, puedes actualizar o downgradear tu plan en cualquier
+                  momento desde el dashboard.
+                </p>
+              </div>
+              <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
+                <h3
+                  class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+                >
+                  ¿Cuándo estarán disponibles el chat y las notificaciones?
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400">
+                  Estamos trabajando en estas funciones y estarán disponibles en
+                  futuras actualizaciones para los planes Pro y Enterprise.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Final -->
+        <section
+          class="cta py-16 bg-gradient-to-r from-[#FC3942] to-[#FF6C73] text-white text-center px-4 rounded-lg mx-4 mb-8"
         >
-          Preguntas Frecuentes
-        </h2>
-        <div class="space-y-8 max-w-2xl mx-auto">
-          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-            <h3
-              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-            >
-              ¿Qué incluye el plan gratuito?
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              El plan gratuito te permite crear hasta 3 proyectos con 5 miembros
-              cada uno, con todas las funciones básicas de tareas y calendario.
-            </p>
-          </div>
-          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-            <h3
-              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-            >
-              ¿Puedo cambiar de plan más tarde?
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              Sí, puedes actualizar o downgradear tu plan en cualquier momento
-              desde el dashboard.
-            </p>
-          </div>
-          <div class="bg-white dark:bg-[#212121] p-6 rounded-lg shadow-md">
-            <h3
-              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
-            >
-              ¿Cuándo estarán disponibles el chat y las notificaciones?
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              Estamos trabajando en estas funciones y estarán disponibles en
-              futuras actualizaciones para los planes Pro y Enterprise.
-            </p>
-          </div>
-        </div>
+          <h2 class="text-3xl font-bold mb-6">Empieza Hoy con Taskify</h2>
+          <a
+            routerLink="/auth/login"
+            class="inline-block bg-white text-primary hover:bg-primary-100 font-bold py-3 px-6 rounded-lg transition-colors"
+          >
+            Comienza Gratis
+          </a>
+        </section>
       </div>
-    </section>
+    </main>
 
-    <!-- CTA Final -->
-    <section
-      class="cta py-16 bg-gradient-to-r from-[#FC3942] to-[#FF6C73] text-white text-center px-4 rounded-lg mx-4 mb-8"
-    >
-      <h2 class="text-3xl font-bold mb-6">Empieza Hoy con Taskify</h2>
-      <p-button
-        class="text-lg font-medium"
-        styleClass="bg-white text-primary hover:bg-primary-100"
-      >
-        Comienza Gratis
-      </p-button>
-    </section>
-  </div>
-</main>
-
-<app-footer />
+    <app-footer />

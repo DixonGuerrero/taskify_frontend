@@ -122,11 +122,17 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
       this.notificationService.getNotifications().subscribe(
         (notification: Notification) => {
           console.log('Nueva notificación recibida:', notification);
-          this.notifications.unshift(notification); // Añadir al inicio
+          // Parsear fecha si viene como string
+          if (
+            notification.created_at &&
+            typeof notification.created_at === 'string'
+          ) {
+            notification.created_at = new Date(notification.created_at);
+          }
+          this.notifications.unshift(notification);
           if (!notification.is_read) this.unreadCount++;
-          this.triggerBellAnimation(); // Activar animación
+          this.triggerBellAnimation();
 
-          // Si la notificación es sobre una tarea, limpiar la caché de tareas
           if (
             notification.message.toLowerCase().includes('tarea') ||
             notification.message.toLowerCase().includes('task')
@@ -150,7 +156,13 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
         .getUnreadNotifications(this.currentUser.id)
         .subscribe(
           (notifications: Notification[]) => {
-            this.notifications = notifications;
+            // Parsear fechas si vienen como strings
+            this.notifications = notifications.map((n) => {
+              if (n.created_at && typeof n.created_at === 'string') {
+                n.created_at = new Date(n.created_at);
+              }
+              return n;
+            });
             this.unreadCount = notifications.filter((n) => !n.is_read).length;
           },
           (error) => {
@@ -356,7 +368,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Configuración',
-        icon: 'pi pi-cog',
+        icon: 'pi pi-sliders-h',
         styleClass: 'hover:text-[#FC3942] dark:hover:text-[#FF6C73]',
         routerLink: '/dashboard/settings',
       },

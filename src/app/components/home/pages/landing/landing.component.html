@@ -45,9 +45,7 @@
       <div class="max-w-6xl mx-auto w-full">
         <!-- Encabezado mejorado -->
         <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-primary mb-4"
-          >
+          <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">
             Tu Compañero Ideal para Gestionar Proyectos
           </h2>
           <p
@@ -182,9 +180,7 @@
     >
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-primary"
-          >
+          <h2 class="text-3xl md:text-4xl font-bold text-primary">
             Funciones que Hacen tu Vida Más Fácil
           </h2>
           <p
@@ -218,7 +214,7 @@
             </div>
             <div class="flex-1">
               <img
-                src="assets/Feature_1.webp"
+                src="assets/Feature_1.png"
                 alt="Formulario de creación de proyectos"
                 class="w-full h-full object-cover dark:opacity-90"
               />
@@ -250,7 +246,7 @@
             </div>
             <div class="flex-1">
               <img
-                src="assets/Feature_2.webp"
+                src="assets/Feature_2.png"
                 alt="Flujo de invitación por código"
                 class="w-full h-full object-cover dark:opacity-90"
               />
@@ -282,7 +278,7 @@
             </div>
             <div class="flex-1">
               <img
-                src="assets/Feature_1.webp"
+                src="assets/Feature_3.png"
                 alt="Tarea con opciones de edición"
                 class="w-full h-full object-cover dark:opacity-90"
               />
@@ -309,12 +305,12 @@
               <p class="text-gray-600 dark:text-[#D4D4D4]/80">
                 Mueve tareas entre estados con un simple arrastrar y soltar.
                 Actualiza el progreso de tus proyectos de forma visual e
-                intuitiva, sin necesidad de abrir menús adicionales.
+                intuitiva.
               </p>
             </div>
             <div class="flex-1">
               <img
-                src="assets/Feature_2.webp"
+                src="assets/Feature_4.png"
                 alt="Drag-and-drop en acción"
                 class="w-full h-full object-cover dark:opacity-90"
               />
@@ -346,7 +342,7 @@
             </div>
             <div class="flex-1">
               <img
-                src="assets/Feature_3.webp"
+                src="assets/Feature_5.png"
                 alt="Calendario con tareas marcadas"
                 class="w-full h-full object-cover dark:opacity-90"
               />
@@ -362,9 +358,7 @@
     >
       <div class="max-w-6xl mx-auto">
         <div class="flex flex-col items-center text-center mb-8">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-primary"
-          >
+          <h2 class="text-3xl md:text-4xl font-bold text-primary">
             Taskify Está Creciendo
           </h2>
           <p class="text-gray-600 dark:text-[#D4D4D4]/80 max-w-2xl">
@@ -380,7 +374,7 @@
           >
             <div class="relative h-48 md:h-64 w-full">
               <img
-                src="assets/Feature_1.webp"
+                src="assets/Section.webp"
                 alt="Taskify dashboard preview"
                 class="w-full h-full object-cover"
               />
@@ -394,14 +388,17 @@
                 Estamos construyendo herramientas que transformarán tu forma de
                 trabajar.
               </p>
-              <div class="flex items-center mt-auto">
+              <a
+                routerLink="/home/roadmap"
+                class="flex items-center mt-auto group cursor-pointer"
+              >
                 <span class="text-sm font-medium"
                   >Explorar todas las funciones</span
                 >
                 <i
                   class="pi pi-arrow-right ml-2 text-sm group-hover:translate-x-1 transition-transform"
                 ></i>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -412,7 +409,7 @@
             <div class="flex flex-col md:flex-row">
               <div class="relative h-40 md:h-auto md:w-1/2">
                 <img
-                  src="assets/Feature_2.webp"
+                  src="assets/Feature_1.png"
                   alt="Team chat feature"
                   class="w-full h-full object-cover"
                 />
@@ -430,10 +427,15 @@
                 <div
                   class="mt-auto flex items-center text-primary text-sm font-medium"
                 >
-                <a routerLink="/roadmap" class="flex items-center text-primary">
-                  <span>Próximamente</span>
-                  <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                  <a
+                    routerLink="/home/roadmap"
+                    class="flex items-center text-primary"
+                  >
+                    <span>Próximamente</span>
+                    <i
+                      class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"
+                    ></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -458,15 +460,20 @@
                 <div
                   class="mt-auto flex items-center text-primary text-sm font-medium"
                 >
-                <a routerLink="/roadmap" class="flex items-center text-primary">
-                  <span>Próximamente</span>
-                  <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                </a>
+                  <a
+                    routerLink="/home/roadmap"
+                    class="flex items-center text-primary"
+                  >
+                    <span>Próximamente</span>
+                    <i
+                      class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"
+                    ></i>
+                  </a>
                 </div>
               </div>
               <div class="relative h-40 md:h-auto md:w-1/2">
                 <img
-                  src="assets/Feature_3.webp"
+                  src="assets/CTA.webp"
                   alt="Smart notifications feature"
                   class="w-full h-full object-cover"
                 />
@@ -474,11 +481,11 @@
             </div>
           </div>
 
-          <!-- Desktop Version -->
+          <!-- Desktop Version - Sin imagen, solo icono -->
           <div
             class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-6"
           >
-            <div class="flex flex-col md:flex-row">
+            <div class="flex flex-col md:flex-row items-center">
               <div class="p-6 md:p-8 md:w-1/2">
                 <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-3">
                   <i class="pi pi-desktop text-primary text-xl"></i>
@@ -493,34 +500,33 @@
                 <div
                   class="flex items-center text-primary text-sm font-medium mt-3"
                 >
-                  <a routerLink="/roadmap" class="flex items-center text-primary">
+                  <a
+                    routerLink="/home/roadmap"
+                    class="flex items-center text-primary"
+                  >
                     <span>Próximamente</span>
-                    <i class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    <i
+                      class="pi pi-arrow-right ml-2 group-hover:translate-x-1 transition-transform"
+                    ></i>
                   </a>
                 </div>
               </div>
-              <div class="relative h-40 md:h-[200px] md:w-1/2">
-                <img
-                  src="assets/Feature_1.webp"
-                  alt="Desktop version feature"
-                  class="w-full h-full object-cover"
-                />
+              <div class="p-6 md:w-1/2 flex items-center justify-center">
+                <div class="bg-primary/5 dark:bg-primary/10 p-8 rounded-full">
+                  <i class="pi pi-desktop text-primary text-6xl"></i>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Additional Feature Tiles -->
+          <!-- Additional Feature Tiles - Sin imágenes, solo iconos -->
           <div
             class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
           >
-            <div class="relative h-32 w-full">
-              <img
-                src="assets/Feature_2.webp"
-                alt="Calendar integration"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-5">
+            <div class="p-5 flex flex-col items-center text-center">
+              <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-3">
+                <i class="pi pi-calendar text-primary text-2xl"></i>
+              </div>
               <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
                 Integración Calendario
               </h3>
@@ -533,14 +539,10 @@
           <div
             class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
           >
-            <div class="relative h-32 w-full">
-              <img
-                src="assets/Feature_3.webp"
-                alt="Mobile app"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-5">
+            <div class="p-5 flex flex-col items-center text-center">
+              <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-3">
+                <i class="pi pi-mobile text-primary text-2xl"></i>
+              </div>
               <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
                 App Móvil
               </h3>
@@ -553,14 +555,10 @@
           <div
             class="bg-white dark:bg-[#1A1616] border border-gray-200 dark:border-primary/10 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group col-span-1 md:col-span-2"
           >
-            <div class="relative h-32 w-full">
-              <img
-                src="assets/Feature_1.webp"
-                alt="AI assistant"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-5">
+            <div class="p-5 flex flex-col items-center text-center">
+              <div class="bg-primary/10 p-3 rounded-2xl w-fit mb-3">
+                <i class="pi pi-sparkles text-primary text-2xl"></i>
+              </div>
               <h3 class="text-lg font-bold mb-1 dark:text-[#D4D4D4]">
                 Asistente IA
               </h3>
@@ -603,19 +601,20 @@
 
         <!-- Contenido CTA centrado debajo de la imagen -->
         <div class="text-center max-w-3xl mx-auto space-y-6 py-8">
-          <h2
-            class="text-3xl md:text-4xl font-bold text-primary"
-          >
+          <h2 class="text-3xl md:text-4xl font-bold text-primary">
             Empieza a Organizarte Hoy
           </h2>
           <p class="text-lg md:text-xl text-gray-600 dark:text-[#D4D4D4]/80">
             Taskify es simple, efectivo y está listo para ti.
           </p>
-          <p-button
-            routerLink="/auth/login"
-            label="Comienza Gratis"
-            styleClass="py-3 px-8 text-lg font-medium"
-          />
+          <a routerLink="/auth/login" class="inline-block">
+            <p-button
+              class="text-lg font-medium"
+              styleClass="bg-white text-primary hover:bg-primary-100"
+            >
+              Comienza Gratis
+            </p-button>
+          </a>
         </div>
       </div>
     </section>

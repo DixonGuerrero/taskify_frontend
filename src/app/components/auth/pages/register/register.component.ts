@@ -79,6 +79,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
+    console.log('Entrando');
 
     if (this.registerForm.invalid) {
       this.messageService.add({
