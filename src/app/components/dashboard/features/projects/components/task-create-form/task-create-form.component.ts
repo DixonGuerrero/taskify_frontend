@@ -98,6 +98,11 @@ export class TaskCreateFormComponent implements OnInit {
       Object.keys(this.taskForm.controls).forEach(key => {
         this.taskForm.get(key)?.markAsTouched();
       });
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Formulario inválido',
+        detail: 'Por favor, completa todos los campos requeridos correctamente.',
+      });
       return;
     }
 
