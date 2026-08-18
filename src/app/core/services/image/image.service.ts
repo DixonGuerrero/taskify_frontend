@@ -107,6 +107,27 @@ export class ImageService {
   }
 
   /**
+   * Sube un archivo de imagen nuevo al catálogo (multipart/form-data).
+   * Requiere rol ADMIN en el backend. Invalida la caché de listas.
+   */
+  upload(file: File, type: ImageType): Observable<Image> {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append(
+      'metadata',
+      new Blob([JSON.stringify({ type })], { type: 'application/json' }),
+    );
+
+    return this.http.post<Image>(this.apiUrl, formData).pipe(
+      tap(() => {
+        this.imagesListCache = null;
+        this.imagesByTypeCache.clear();
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  /**
    * Elimina una imagen por su ID en el backend.
    * Invalida la caché de la imagen eliminada.
    */

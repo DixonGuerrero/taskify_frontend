@@ -10,9 +10,11 @@ import { DividerModule } from 'primeng/divider';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MessageService, ConfirmationService } from 'primeng/api'; // Add ConfirmationService
 import { DialogModule } from 'primeng/dialog';
+import { SelectModule } from 'primeng/select';
+import { FileUploadModule, FileUploadHandlerEvent } from 'primeng/fileupload';
 import { AuthService } from '../../../../core/services/auth/auth.service';
 import { UserService } from '../../../../core/services/user/user.service';
-import { User, UserRequest } from '../../../../core/models';
+import { User, UserRequest, RoleEnum } from '../../../../core/models';
 import { Subscription } from 'rxjs';
 import { ImageService } from '../../../../core/services/image/image.service';
 import { Image, ImageType } from '../../../../core/models/image';
@@ -31,6 +33,8 @@ import { Image, ImageType } from '../../../../core/models/image';
     DividerModule,
     InputMaskModule,
     DialogModule,
+    SelectModule,
+    FileUploadModule,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -38,6 +42,7 @@ import { Image, ImageType } from '../../../../core/models/image';
 export class ProfileComponent implements OnInit, OnDestroy {
   currentUser!: User;
   loading = true;
+  isAdmin = false;
 
   editMode = false;
   showPasswordDialog = false;
@@ -47,6 +52,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // Lista de imágenes de usuario disponibles
   userImages: Image[] = [];
+
+  // Catálogo de imágenes (solo admin)
+  catalogTypeOptions = [
+    { label: 'Avatar de usuario', value: ImageType.USER },
+    { label: 'Imagen de proyecto', value: ImageType.PROJECT },
+  ];
+  selectedCatalogType: ImageType = ImageType.USER;
+  uploadingCatalogImage = false;
+  readonly maxCatalogImageSize = 5 * 1024 * 1024; // 5MB, igual que el límite del backend
+  readonly acceptedCatalogImageTypes =
+    'image/png,image/jpeg,image/jpg,image/webp';
 
   private subscriptions = new Subscription();
 
@@ -75,6 +91,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           next: (user) => {
             if (user) {
               this.currentUser = user as User;
+              this.isAdmin = this.currentUser.role?.name === RoleEnum.ADMIN;
               this.loading = false;
             }
           },
@@ -372,5 +389,57 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   getCurrentAvatarUrl(): string {
     return this.currentUser?.image?.file?.url || 'assets/User.webp';
+  }
+
+  onCatalogImageUpload(event: FileUploadHandlerEvent): void {
+    const file = event.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    this.uploadingCatalogImage = true;
+
+    const uploadSub = this.imageService
+      .upload(file, this.selectedCatalogType)
+      .subscribe({
+        next: () => {
+          this.uploadingCatalogImage = false;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Imagen agregada',
+            detail:
+              'La imagen fue agregada al catálogo correctamente. Ya está disponible para elegirla desde el selector.',
+          });
+
+          if (this.selectedCatalogType === ImageType.USER) {
+            this.loadUserImages();
+          }
+        },
+        error: (error) => {
+          this.uploadingCatalogImage = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error al subir imagen',
+            detail:
+              error?.message ||
+              'No se pudo agregar la imagen al catálogo. Inténtalo de nuevo.',
+          });
+        },
+      });
+
+    this.subscriptions.add(uploadSub);
+  }
+
+  onCatalogImageSelect(event: { files: File[]; currentFiles: File[] }): void {
+    // PrimeNG descarta internamente los archivos que no pasan accept/maxFileSize:
+    // si currentFiles quedó vacío tras seleccionar, es que la validación los rechazó.
+    if (event.files?.length && !event.currentFiles?.length) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Archivo no válido',
+        detail:
+          'La imagen debe ser JPEG, PNG, JPG o WEBP y pesar como máximo 5MB.',
+      });
+    }
   }
 }

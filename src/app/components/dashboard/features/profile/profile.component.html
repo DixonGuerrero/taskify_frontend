@@ -164,6 +164,64 @@
     </div>
   </div>
 
+  <!-- Catálogo de imágenes (solo admin) -->
+  <div *ngIf="!loading && isAdmin" class="mt-6">
+    <div
+      class="bg-white dark:bg-[#1A1616] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6"
+    >
+      <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1">
+        Catálogo de imágenes
+      </h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        Agrega nuevas imágenes disponibles para que los usuarios elijan como
+        avatar o imagen de proyecto. Solo visible para administradores.
+      </p>
+
+      <div class="flex flex-col sm:flex-row sm:items-end gap-4">
+        <div class="w-full sm:w-64">
+          <label
+            for="catalogType"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >Tipo de imagen</label
+          >
+          <p-select
+            id="catalogType"
+            [(ngModel)]="selectedCatalogType"
+            [options]="catalogTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            [disabled]="uploadingCatalogImage"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+
+        <p-fileupload
+          mode="basic"
+          name="image"
+          chooseIcon="pi pi-upload"
+          chooseLabel="Subir imagen"
+          [auto]="true"
+          [customUpload]="true"
+          [accept]="acceptedCatalogImageTypes"
+          [maxFileSize]="maxCatalogImageSize"
+          [disabled]="uploadingCatalogImage"
+          (uploadHandler)="onCatalogImageUpload($event)"
+          (onSelect)="onCatalogImageSelect($event)"
+          styleClass="p-button-outlined"
+        ></p-fileupload>
+
+        <i
+          *ngIf="uploadingCatalogImage"
+          class="pi pi-spin pi-spinner text-xl text-primary"
+        ></i>
+      </div>
+
+      <p class="text-xs text-gray-400 dark:text-gray-500 mt-3">
+        Formatos permitidos: JPEG, PNG, JPG, WEBP. Tamaño máximo: 5MB.
+      </p>
+    </div>
+  </div>
+
   <!-- Diálogo para cambiar contraseña -->
   <p-dialog
     header="Cambiar contraseña"
